@@ -16,3 +16,15 @@
 build
 *.xcodeproj
 Battleship.1
+
+# Eclipse
+.cproject
+.project
+/Debug
+/Release
+
+# Visual Studio
+Battleship.vcxproj
+Battleship.vcxproj.filters
+Battleship.vcxproj.user
+
