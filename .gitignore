@@ -17,3 +17,8 @@
 .project
 /Debug
 /Release
+
+# Visual Studio
+Battleship.vcxproj
+Battleship.vcxproj.filters
+Battleship.vcxproj.user
