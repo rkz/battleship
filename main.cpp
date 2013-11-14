@@ -6,12 +6,12 @@ using namespace std;
 
 int main ()
 {
-	cout << "Hello, world!" << endl;
-
 	// Tests de positions
 	Position p(1, 2);
-	cout << p.getX() << ", " << p.getY() << endl;
-	cout << p << endl;
+	Position q(1, 2);
+	Position z(2,2);
+
+	cout << (q != p) << endl << (z != q);
 
 	// Tests de Cell
 	Cell c(p, SINK);

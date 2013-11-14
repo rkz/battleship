@@ -32,4 +32,6 @@ Battleship.vcxproj.user
 # CodeBlocks
 battleship.cbp
 battleship.layout
-
+battleship.depend
+/bin
+/obj
