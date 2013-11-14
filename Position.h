@@ -19,6 +19,7 @@ private:
 
 public:
 	Position(int x, int y); // Attention ne pas initialiser de position vides
+	Position(std::string pos);
 
 	int getX() const;
 	int getY() const;

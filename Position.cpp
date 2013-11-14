@@ -1,10 +1,17 @@
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
 #include "Position.h"
 
 Position::Position(int _x, int _y) : x(_x), y(_y)
 {
 
+}
+
+Position::Position(std::string pos)
+{
+    x = toInt(pos[0]);
+    y = pos[1] - '0';
 }
 
 int Position::getX() const
