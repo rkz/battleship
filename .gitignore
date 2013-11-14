@@ -20,6 +20,7 @@ Battleship.1
 # Eclipse
 .cproject
 .project
+/.settings
 /Debug
 /Release
 
