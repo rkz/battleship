@@ -29,6 +29,7 @@ std::string Cell::getStatusAsString () const
 		case WATER: return "water";
 		case TOUCH: return "touch";
 		case SINK: return "sink";
+		default: return "";
 	};
 }
 
