@@ -28,3 +28,6 @@ Battleship.vcxproj
 Battleship.vcxproj.filters
 Battleship.vcxproj.user
 
+# CodeBlocks
+battleship.cbp
+
