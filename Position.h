@@ -14,17 +14,18 @@ class Position {
 private:
 	int x;
 	int y;
+	std::string toLetter(int x);
+	int toInt(std::string a);
 
 public:
 	Position(int x, int y); // Attention ne pas initialiser de position vides
 
 	int getX() const;
-	void setX(int x);
-
 	int getY() const;
-	void setY(int y);
 };
 
+bool operator==(Position const& a, Position const& b);
+bool operator!=(Position const& a, Position const& b);
 std::ostream & operator<<(std::ostream & ofs, Position const & p);
 
 #endif /* POSITION_H_ */

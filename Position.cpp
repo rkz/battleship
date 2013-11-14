@@ -1,11 +1,9 @@
+#include <iostream>
 #include "Position.h"
 
-#include <iostream>
-
-Position::Position(int _x, int _y)
+Position::Position(int _x, int _y) : x(_x), y(_y)
 {
-	setX(_x);
-	setY(_y);
+
 }
 
 int Position::getX() const
@@ -13,19 +11,37 @@ int Position::getX() const
 	return x;
 }
 
-void Position::setX(int x)
-{
-	this->x = x;
-}
-
 int Position::getY() const
 {
 	return y;
 }
 
-void Position::setY(int y)
+// Fonctions privées
+std::string toLetter(int x)
 {
-	this->y = y;
+    return "a";
+}
+
+int toInt(std::string a)
+{
+    return 1;
+}
+
+// Opérateurs
+bool operator==(Position const& a, Position const& b)
+{
+    if (a.getX() == b.getX() && a.getY() == b.getY())
+        return true;
+    else
+        return false;
+}
+
+bool operator!=(Position const& a, Position const& b)
+{
+    if (a.getX() != b.getX() || a.getY() != b.getY())
+        return true;
+    else
+        return false;
 }
 
 std::ostream & operator<< (std::ostream & ofs, Position const & p)
