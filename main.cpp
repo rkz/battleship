@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "Position.h"
+#include "Cell.h"
 
 int main ()
 {
@@ -11,6 +12,11 @@ int main ()
 	Position z(2,2);
 
 	cout << z;
+
+	// Tests de Cell
+	Cell c(p, SINK);
+	cout << c.getPosition() << endl;
+	cout << c.getStatusAsString() << endl;
 
 	return 0;
 }
