@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "Position.h"
 
 Position::Position(int _x, int _y) : x(_x), y(_y)
@@ -17,14 +18,24 @@ int Position::getY() const
 }
 
 // Fonctions privées
-std::string toLetter(int x)
+char Position::toLetter(int x)
 {
-    return "a";
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return alphabet.at(x-1);
 }
 
-int toInt(std::string a)
+int Position::toInt(char a)
 {
-    return 1;
+    std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return alphabet.find_first_of(a)+1;
+}
+
+std::string Position::toString() const
+{
+    std::ostringstream oss;
+    oss << Position::toLetter(x) << y;
+
+    return oss.str();
 }
 
 // Opérateurs
@@ -44,8 +55,8 @@ bool operator!=(Position const& a, Position const& b)
         return false;
 }
 
-std::ostream & operator<< (std::ostream & ofs, Position const & p)
+std::ostream & operator<<(std::ostream & ofs, Position const& p)
 {
-    ofs << p.getX() << "-" << p.getY();
+    ofs << p.toString();
     return ofs;
 }

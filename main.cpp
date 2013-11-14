@@ -10,7 +10,7 @@ int main ()
 	Position q(1, 2);
 	Position z(2,2);
 
-	cout << (q != p) << endl << (z != q);
+	cout << z;
 
 	return 0;
 }
