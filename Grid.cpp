@@ -75,9 +75,9 @@ Grid Grid::getTargetGrid ()
 {
 	int i = 0;
 	Grid target = *this;
-	while (i < ships.size()) {
+	while (i < target.ships.size()) {
 		if (!target.ships[i].isSunk())
-			ships.erase(ships.begin() + i);
+			target.ships.erase(target.ships.begin() + i);
 		else
 			i++;
 	}
