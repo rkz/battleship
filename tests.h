@@ -10,6 +10,7 @@
 void runTests ();
 
 void testPosition ();
+void testGrid ();
 void testShips ();
 
 #endif /* TESTS_H_ */
