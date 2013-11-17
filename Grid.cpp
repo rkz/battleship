@@ -1,19 +1,22 @@
 #include "Grid.h"
 
+#include <cassert>
+
 Grid::Grid (int _size)
 	: size(_size)
 {
-	for (int i(0); i < _size; i++)
+	for (int i = 0; i < size; i++)
 	{
-		std::vector <Cell> v;
-		for (int j(0); j < _size; j++)
-			v.push_back (Cell(Position(i,j)));
-		grid.push_back (v);
+		std::vector<Cell> v;
+		for (int j = 0; j < size; j++)
+			v.push_back(Cell(Position(i,j)));
+
+		grid.push_back(v);
 	}
 }
 
 Grid::Grid (Grid const& grid_to_copy)
-	: size (grid_to_copy.size), grid (grid_to_copy.grid), ships (grid_to_copy.ships)
+	: size(grid_to_copy.size), grid(grid_to_copy.grid), ships(grid_to_copy.ships)
 {
 }
 
@@ -25,15 +28,16 @@ int Grid::getSize () const
 Cell* Grid::getCell (Position position)
 {
 	if (isPositionValid(position))
-		return (&grid[position.getX()][position.getY()]);
+		return &(grid[position.getX()][position.getY()]);
 	else
 		return 0;
 }
 
 bool Grid::isPositionValid (Position position)
 {
-	int x = position.getX(), y = position.getY();
-	return (x >= 0 && x < size && y >= 0 && y < size);
+	int x = position.getX();
+	int y = position.getY();
+	return (x >= 0) && (x < size) && (y >= 0) && (y < size);
 }
 
 bool Grid::addShip (Position position, Direction direction, int length, std::string name)
@@ -65,15 +69,13 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	std::vector<Cell*> cells;
 	for (int i = 0; i < length; i++)
 	{
-		int curr_x = x + i*dx;
-		int curr_y = y + i*dy;
+		Position pos(x + i*dx, y + i*dy);
 		
-		if (getShipAtPosition(Position(curr_x,curr_y)))
+		if (getShipAtPosition(pos))
 			return false;
 		
-		Cell* c = getCell(Position(curr_x, curr_y));
-		if (c == 0) // ne devrait pas se produire
-			return false;
+		Cell* c = getCell(pos);
+		assert(c != 0);
 		cells.push_back(c);
 	}
 
@@ -104,21 +106,21 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 	ofs << std::endl;
     for (int i(0); i < g_size; i++)
 	{
-		if (i<9) {
-			ofs << i+1 << "  ";
-		}
-		else {
-			ofs << i+1 << " ";
-		}
-		for (int j(0); j < g_size; j++) {
-			switch (g.getCell(Position(i,j))->getStatus()) {
-				case UNKNOWN: ofs << ". ";
+		ofs << i+1 << ((i < 9) ? "  " : " ");
+
+		for (int j = 0; j < g_size; j++) {
+			assert(g.getCell(Position(i, j)) != 0);
+			switch (g.getCell(Position(i, j))->getStatus()) {
+				case UNKNOWN:
+					ofs << ". ";
 					break;
-				case WATER: ofs << "  ";
+				case WATER:
+					ofs << "  ";
 					break;
-				case TOUCH: ofs << "+ ";
+				case TOUCH:
+					ofs << "+ ";
 					break;
-				default: ofs << "";
+				default:
 					break;
 			}
 		}
