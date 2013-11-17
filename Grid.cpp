@@ -104,3 +104,8 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 	}
     return ofs;
 }
+
+Ship* Grid::getShipAtPosition (Position position) const
+{
+
+}

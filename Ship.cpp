@@ -31,3 +31,13 @@ bool Ship::isTouched() const {
     }
     return false;
 }
+
+std::vector<Cell*> Ship::getCells() const
+{
+    return cells;
+}
+std::string Ship::getName() const
+{
+    return name;
+}
+
