@@ -7,12 +7,12 @@
 
 #include "Cell.h"
 
-Cell::Cell(Position& _position, CellStatus _status)
+Cell::Cell(Position _position, CellStatus _status)
 	: position(_position), status(_status)
 {
 }
 
-Position& Cell::getPosition () const
+Position Cell::getPosition () const
 {
 	return position;
 }

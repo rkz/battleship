@@ -21,13 +21,13 @@ enum CellStatus
 class Cell
 {
 private:
-	Position& position;
+	Position position;
 	CellStatus status;
 
 public:
-	Cell(Position& position, CellStatus status = UNKNOWN);
+	Cell(Position position, CellStatus status = UNKNOWN);
 
-	Position& getPosition () const;
+	Position getPosition () const;
 
 	CellStatus getStatus () const;
 	std::string getStatusAsString () const;
