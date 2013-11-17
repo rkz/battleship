@@ -33,43 +33,37 @@ bool Grid::isPositionValid(Position position)
 
 bool Grid::addShip (Position position, Direction direction, int length, std::string name)
 {
-	int x = position.getX(), y = position.getY();
-	if (!isPositionValid (position) || length <= 0) {
+	int x = position.getX();
+	int y = position.getY();
+	int dx = 0;
+	int dy = 0;
+
+	if (!isPositionValid (position) || length <= 0)
 		return false;
-	}
+
+	// Selon la direction, définir la direction sur laquelle itérer (dx et dy) et
+	// vérifier que le bateau ne va pas dépasser de la grille
 	switch (direction) {
 		case HORIZONTAL:
-			if (y+length <= size) {
-				std::vector <Cell*> cells;
-				for (int j(0); j < length; j++)
-				{
-					Cell *p;
-					p = &grid[x][y+j];
-					cells.push_back(p);
-				}
-				ships.push_back(Ship(cells, name));
-				return true;
-			}
-			else {
-				return false;
-			}
+			if (y+length > size) return false;
+			dy = 1;
+			break;
 		case VERTICAL:
-			if (x+length <= size) {
-				std::vector <Cell*> cells;
-				for (int i(0); i < length; i++)
-				{
-					Cell *p;
-					p = &grid[x+i][y];
-					cells.push_back(p);
-				}
-				ships.push_back(Ship(cells, name));
-				return true;
-			}
-			else {
-				return false;
-			}
-		default: return false;
+			if (x+length > size) return false;
+			dx = 1;
+			break;
+		default:
+			return false;
 	}
+
+	// Créer la liste de Cells du bateau
+	std::vector<Cell*> cells;
+	for (int i = 0; i < length; i++)
+		cells.push_back(getCell(Position(x + i*dx, y + i*dy)));
+
+	// Ajouter le bateau à la grille
+	ships.push_back(Ship(cells, name));
+	return true;
 }
 
 std::ostream & operator<<(std::ostream & ofs, Grid& g)
