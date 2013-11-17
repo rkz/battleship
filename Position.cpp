@@ -5,13 +5,16 @@
 
 Position::Position(int _x, int _y) : x(_x), y(_y)
 {
-
 }
 
 Position::Position(std::string pos)
 {
     x = toInt(pos[0]);
     y = pos[1] - '1';
+}
+
+Position::Position(Position& other) : x(other.x), y(other.y)
+{
 }
 
 int Position::getX() const
@@ -24,7 +27,6 @@ int Position::getY() const
 	return y;
 }
 
-// Fonctions privées
 char Position::toLetter(int x)
 {
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -45,7 +47,6 @@ std::string Position::toString() const
     return oss.str();
 }
 
-// Opérateurs
 bool operator==(Position const& a, Position const& b)
 {
     if (a.getX() == b.getX() && a.getY() == b.getY())
