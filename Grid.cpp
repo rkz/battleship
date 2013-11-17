@@ -17,9 +17,9 @@ int Grid::getSize() const
 	return size;
 }
 
-Cell Grid::getCell(int x, int y) const
+Cell* Grid::getCell(Position position)
 {
-	return grid[x][y];
+	return &(grid[position.getX()][position.getY()]);
 }
 
 bool Grid::isPositionValid(Position position)
@@ -73,7 +73,7 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	}
 }
 
-std::ostream & operator<<(std::ostream & ofs, Grid const& g)
+std::ostream & operator<<(std::ostream & ofs, Grid& g)
 {
 	int g_size = g.getSize();
 	ofs << "   ";
@@ -89,7 +89,7 @@ std::ostream & operator<<(std::ostream & ofs, Grid const& g)
 			ofs << i+1 << " ";
 		}
 		for (int j(0); j < g_size; j++) {
-			switch (g.getCell(i,j).getStatus()) {
+			switch (g.getCell(Position(i,j))->getStatus()) {
 				case UNKNOWN: ofs << ". ";
 					break;
 				case WATER: ofs << "  ";

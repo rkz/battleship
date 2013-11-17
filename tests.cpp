@@ -32,6 +32,7 @@ void testPosition ()
 void testGrid ()
 {
 	Grid g(10);
+	g.getCell(Position(0, 0))->setStatus(TOUCH);
 	cout << g << endl;
 }
 
@@ -40,11 +41,11 @@ void testAddShip ()
 	Grid g(5);
 	bool test1 = g.addShip(Position(0,2), HORIZONTAL, 3, "Chantal");
 	if (!test1) {
-		cout << "Erreur dans le test 1" << endl;
+		cout << "Erreur dans le test addShip 1" << endl;
 	}
 	bool test2 = g.addShip(Position(2,0), VERTICAL, 4, "Selier");
 	if (test2) {
-		cout << "Erreur dans le test 2" << endl;
+		cout << "Erreur dans le test addShip 2" << endl;
 	}
 }
 
