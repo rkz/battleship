@@ -34,7 +34,7 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	if (isPositionValid (position)) {
 		switch (direction) {
 			case HORIZONTAL:
-				if (x+length <= size) {
+				if (y+length <= size) {
 					std::vector <Cell*> cells;
 					for (int j(0); j < length; j++)
 					{
@@ -49,7 +49,7 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 					return false;
 				}
 			case VERTICAL:
-				if (y+length <= size) {
+				if (x+length <= size) {
 					std::vector <Cell*> cells;
 					for (int i(0); i < length; i++)
 					{

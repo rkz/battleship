@@ -11,6 +11,7 @@ void runTests ();
 
 void testPosition ();
 void testGrid ();
+void testAddShip ();
 void testShips ();
 void testShipTouched ();
 void testShipSunk ();
