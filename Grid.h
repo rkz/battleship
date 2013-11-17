@@ -21,12 +21,12 @@ private:
 public:
 	Grid(int _size);
 	int getSize() const;
-	Cell getCell(int x, int y) const;
+	Cell* getCell(Position position);
 	bool isPositionValid(Position position);
 	bool addShip (Position position, Direction direction, int length, std::string name);
 	
 };
 
-std::ostream & operator<<(std::ostream & ofs, Grid const& g);
+std::ostream & operator<<(std::ostream & ofs, Grid& g);
 
 #endif

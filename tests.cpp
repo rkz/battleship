@@ -31,6 +31,7 @@ void testPosition ()
 void testGrid ()
 {
 	Grid g(10);
+	g.getCell(Position(0, 0))->setStatus(TOUCH);
 	cout << g;
 }
 
