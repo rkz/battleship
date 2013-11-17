@@ -15,7 +15,6 @@ enum CellStatus
 	UNKNOWN = 0, // pas encore de tir
 	WATER = 1, // à l'eau (pas de bateau)
 	TOUCH = 2, // touché (mais pas coulé)
-	SINK = 3 // coulé
 };
 
 class Cell
