@@ -11,7 +11,7 @@ Position::Position(int _x, int _y) : x(_x), y(_y)
 Position::Position(std::string pos)
 {
     x = toInt(pos[0]);
-    y = pos[1] - '0';
+    y = pos[1] - '1';
 }
 
 int Position::getX() const
@@ -28,19 +28,19 @@ int Position::getY() const
 char Position::toLetter(int x)
 {
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    return alphabet.at(x-1);
+    return alphabet.at(x);
 }
 
 int Position::toInt(char a)
 {
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    return alphabet.find_first_of(a)+1;
+    return alphabet.find_first_of(a);
 }
 
 std::string Position::toString() const
 {
     std::ostringstream oss;
-    oss << Position::toLetter(x) << y;
+    oss << Position::toLetter(x) << y+1;
 
     return oss.str();
 }
