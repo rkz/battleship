@@ -12,8 +12,11 @@ private:
 	
 public:
 	Grid(int _size);
-	Cell getCell(int x, int y);
+	int getSize() const;
+	Cell getCell(int x, int y) const;
 	
 };
+
+std::ostream & operator<<(std::ostream & ofs, Grid const& g);
 
 #endif
