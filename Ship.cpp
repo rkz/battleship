@@ -7,11 +7,15 @@
 #include "Cell.h"
 #include "Ship.h"
 
+#include <cassert>
 using namespace std;
 
 Ship::Ship(vector<Cell*> _cells, string _name)
 : cells(_cells), name(_name)
 {
+	// Vérifier que tous les pointeurs Cell* sont non nuls
+	for (int i = 0; i < cells.size(); i++)
+		assert(cells[i] != 0);
 }
 
 bool Ship::isSunk() const {

@@ -133,8 +133,6 @@ Ship* Grid::getShipAtPosition (Position position)
 		Ship* ship = &(ships[i]);
 		std::vector<Cell*> shipCells = ship->getCells();
 		for (int j = 0; j < shipCells.size(); j++) {
-			if (shipCells[j] == 0) // ne devrait pas se produire
-				return 0;
 			if (shipCells[j]->getPosition() == position) return ship;
 		}
 	}
