@@ -11,5 +11,7 @@ void runTests ();
 
 void testPosition ();
 void testShips ();
+void testShipTouched ();
+void testShipSunk ();
 
 #endif /* TESTS_H_ */
