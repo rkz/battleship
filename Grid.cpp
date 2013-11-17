@@ -34,45 +34,41 @@ bool Grid::isPositionValid(Position position)
 bool Grid::addShip (Position position, Direction direction, int length, std::string name)
 {
 	int x = position.getX(), y = position.getY();
-	if (isPositionValid (position)) {
-		switch (direction) {
-			case HORIZONTAL:
-				if (y+length <= size) {
-					std::vector <Cell*> cells;
-					for (int j(0); j < length; j++)
-					{
-						Cell *p;
-						p = &grid[x][y+j];
-						cells.push_back (p);
-					}
-					ship.push_back (Ship(cells, name));
-					return true;
-				}
-				else {
-					return false;
-				}
-			case VERTICAL:
-				if (x+length <= size) {
-					std::vector <Cell*> cells;
-					for (int i(0); i < length; i++)
-					{
-						Cell *p;
-						p = &grid[x+i][y];
-						cells.push_back (p);
-					}
-					ship.push_back (Ship(cells, name));
-					return true;
-				}
-				else {
-					return false;
-				}
-			default: return false;
-		}
-		return true;
-	}
-	else
-	{
+	if (!isPositionValid (position) || length <= 0) {
 		return false;
+	}
+	switch (direction) {
+		case HORIZONTAL:
+			if (y+length <= size) {
+				std::vector <Cell*> cells;
+				for (int j(0); j < length; j++)
+				{
+					Cell *p;
+					p = &grid[x][y+j];
+					cells.push_back(p);
+				}
+				ships.push_back(Ship(cells, name));
+				return true;
+			}
+			else {
+				return false;
+			}
+		case VERTICAL:
+			if (x+length <= size) {
+				std::vector <Cell*> cells;
+				for (int i(0); i < length; i++)
+				{
+					Cell *p;
+					p = &grid[x+i][y];
+					cells.push_back(p);
+				}
+				ships.push_back(Ship(cells, name));
+				return true;
+			}
+			else {
+				return false;
+			}
+		default: return false;
 	}
 }
 

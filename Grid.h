@@ -16,7 +16,7 @@ class Grid
 private:
 	int size;
 	std::vector < std::vector<Cell> > grid;
-	std::vector <Ship> ship;
+	std::vector <Ship> ships;
 	
 public:
 	Grid(int _size);
