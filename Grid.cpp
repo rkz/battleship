@@ -22,6 +22,57 @@ Cell Grid::getCell(int x, int y) const
 	return grid[x][y];
 }
 
+bool Grid::isPositionValid(Position position)
+{
+	int x = position.getX(), y = position.getY();
+	return (x >= 0 && x < size && y >= 0 && y < size);
+}
+
+bool Grid::addShip (Position position, Direction direction, int length, std::string name)
+{
+	int x = position.getX(), y = position.getY();
+	if (isPositionValid (position)) {
+		switch (direction) {
+			case HORIZONTAL:
+				if (x+length <= size) {
+					std::vector <Cell*> cells;
+					for (int j(0); j < length; j++)
+					{
+						Cell *p;
+						p = &grid[x][y+j];
+						cells.push_back (p);
+					}
+					ship.push_back (Ship(cells, name));
+					return true;
+				}
+				else {
+					return false;
+				}
+			case VERTICAL:
+				if (y+length <= size) {
+					std::vector <Cell*> cells;
+					for (int i(0); i < length; i++)
+					{
+						Cell *p;
+						p = &grid[x+i][y];
+						cells.push_back (p);
+					}
+					ship.push_back (Ship(cells, name));
+					return true;
+				}
+				else {
+					return false;
+				}
+			default: return false;
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 std::ostream & operator<<(std::ostream & ofs, Grid const& g)
 {
 	int g_size = g.getSize();
