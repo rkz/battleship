@@ -64,7 +64,13 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	// Créer la liste de Cells du bateau
 	std::vector<Cell*> cells;
 	for (int i = 0; i < length; i++)
-		cells.push_back(getCell(Position(x + i*dx, y + i*dy)));
+	{
+		int curr_x = x + i*dx;
+		int curr_y = y + i*dy;
+		if (getShipAtPosition(Position(curr_x,curr_y)))
+			return false;
+		cells.push_back(getCell(Position(curr_x, curr_y)));
+	}
 
 	// Ajouter le bateau à la grille
 	ships.push_back(Ship(cells, name));

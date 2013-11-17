@@ -39,11 +39,11 @@ void testGrid ()
 void testAddShip ()
 {
 	Grid g(5);
-	bool test1 = g.addShip(Position(0,2), HORIZONTAL, 3, "Chantal");
+	bool test1 = g.addShip(Position(0,2), HORIZONTAL, 3, "Ship1");
 	if (!test1) {
 		cout << "Erreur dans le test addShip 1" << endl;
 	}
-	bool test2 = g.addShip(Position(2,0), VERTICAL, 4, "Selier");
+	bool test2 = g.addShip(Position(2,0), VERTICAL, 4, "Ship2");
 	if (test2) {
 		cout << "Erreur dans le test addShip 2" << endl;
 	}
