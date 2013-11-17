@@ -1,6 +1,6 @@
 #include "Grid.h"
 
-Grid::Grid(int _size)
+Grid::Grid (int _size)
 	: size(_size)
 {
 	for (int i(0); i < _size; i++)
@@ -12,12 +12,17 @@ Grid::Grid(int _size)
 	}
 }
 
-int Grid::getSize() const
+Grid::Grid (Grid const& grid_to_copy)
+	: size (grid_to_copy.size), grid (grid_to_copy.grid), ships (grid_to_copy.ships)
+{
+}
+
+int Grid::getSize () const
 {
 	return size;
 }
 
-Cell* Grid::getCell(Position position)
+Cell* Grid::getCell (Position position)
 {
 	if (isPositionValid(position))
 		return (&grid[position.getX()][position.getY()]);
@@ -25,7 +30,7 @@ Cell* Grid::getCell(Position position)
 		return 0;
 }
 
-bool Grid::isPositionValid(Position position)
+bool Grid::isPositionValid (Position position)
 {
 	int x = position.getX(), y = position.getY();
 	return (x >= 0 && x < size && y >= 0 && y < size);
@@ -64,6 +69,19 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	// Ajouter le bateau à la grille
 	ships.push_back(Ship(cells, name));
 	return true;
+}
+
+Grid Grid::getTargetGrid ()
+{
+	int i = 0;
+	Grid target = *this;
+	while (i < ships.size()) {
+		if (!target.ships[i].isSunk())
+			ships.erase(ships.begin() + i);
+		else
+			i++;
+	}
+	return target;
 }
 
 std::ostream & operator<<(std::ostream & ofs, Grid& g)
