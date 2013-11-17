@@ -19,6 +19,7 @@ public:
     bool isSunk() const;
     bool isTouched() const;
     std::vector<Cell*> getCells() const;
+    std::string getName() const;
 };
 
 

@@ -50,12 +50,12 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	// vérifier que le bateau ne va pas dépasser de la grille
 	switch (direction) {
 		case HORIZONTAL:
-			if (y+length > size) return false;
-			dy = 1;
-			break;
-		case VERTICAL:
 			if (x+length > size) return false;
 			dx = 1;
+			break;
+		case VERTICAL:
+			if (y+length > size) return false;
+			dy = 1;
 			break;
 		default:
 			return false;
@@ -67,9 +67,14 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	{
 		int curr_x = x + i*dx;
 		int curr_y = y + i*dy;
+		
 		if (getShipAtPosition(Position(curr_x,curr_y)))
 			return false;
-		cells.push_back(getCell(Position(curr_x, curr_y)));
+		
+		Cell* c = getCell(Position(curr_x, curr_y));
+		if (c == 0) // ne devrait pas se produire
+			return false;
+		cells.push_back(c);
 	}
 
 	// Ajouter le bateau à la grille
@@ -120,4 +125,19 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 		ofs << std::endl;
 	}
     return ofs;
+}
+
+Ship* Grid::getShipAtPosition (Position position)
+{
+	for (int i = 0; i < ships.size(); i++) {
+		Ship* ship = &(ships[i]);
+		std::vector<Cell*> shipCells = ship->getCells();
+		for (int j = 0; j < shipCells.size(); j++) {
+			if (shipCells[j] == 0) // ne devrait pas se produire
+				return 0;
+			if (shipCells[j]->getPosition() == position) return ship;
+		}
+	}
+
+	return 0;
 }

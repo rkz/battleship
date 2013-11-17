@@ -17,6 +17,8 @@ void runTests ()
 	testShips();
 	testShipSunk();
 	testShipTouched();
+	testShipGetCells();
+	getShipAtPosition();
 }
 
 void testPosition ()
@@ -59,7 +61,7 @@ void testShips ()
 
 void testShipSunk ()
 {
-    cout << endl << "test de Ship.isSunk" << endl;
+    cout << endl << "test de Ship::isSunk" << endl;
     Position x(1,1), y(1,2);
     Cell p(x,TOUCH), q(y);
     vector<Cell*> cells;
@@ -71,7 +73,7 @@ void testShipSunk ()
 
 void testShipTouched ()
 {
-    cout << endl << "test de Ship.isTouched" << endl;
+    cout << endl << "test de Ship::isTouched" << endl;
     Position x(1,1), y(1,2);
     Cell p(x), q(y);
     vector<Cell*> cells;
@@ -79,4 +81,29 @@ void testShipTouched ()
     Ship myShip(cells, "patrol boat");
     if(myShip.isTouched()==true) { cout<< "true" << endl; }
     else { cout << "false" << endl; }
+}
+
+void testShipGetCells()
+{
+    cout << endl << "test de Ship::getCells" << endl;
+    Position x(1,1), y(1,2);
+    Cell p(x), q(y);
+    vector<Cell*> cells;
+    cells.push_back(&p); cells.push_back(&q);
+    Ship myShip(cells, "patrol boat");
+    cout << myShip.getCells()[0]->getPosition() << endl;
+    cout << myShip.getCells()[1]->getPosition() << endl;
+}
+
+void getShipAtPosition()
+{
+    cout << endl << "test de Grid::getShipAtPosition" << endl;
+    Grid myGrid(12);
+    cout << "ajout patrol boat : " << (myGrid.addShip(Position(1,1), VERTICAL, 2, "patrol boat") ? "OK" : "KO") << endl;
+    cout << "ajout cruiser : " << (myGrid.addShip(Position(5,1), VERTICAL, 3, "cruiser") ? "OK" : "KO") << endl;
+
+    Position p(5, 4);
+    Ship* s = myGrid.getShipAtPosition(p);
+    if (s == 0) cout << "pas de bateau en " << p << endl;
+    else cout << "en " << p << " : " << s->getName() << endl;
 }

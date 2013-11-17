@@ -16,8 +16,8 @@ class Grid
 private:
 	int size;
 	std::vector < std::vector<Cell> > grid;
-	std::vector <Ship> ships;
-	
+    std::vector <Ship> ships;
+
 public:
 	Grid (int _size); // Constructeur
 	Grid (Grid const& grid_to_copy); // Constructeur de copie
@@ -25,8 +25,10 @@ public:
 	Cell* getCell (Position position);
 	bool isPositionValid (Position position);
 	bool addShip (Position position, Direction direction, int length, std::string name);
+
+	// getShipAtPosition renvoie un pointeur vers le bateau pr�sent � une position donn�e (pointeur nul s'il n'y a pas de bateau) :
+	Ship* getShipAtPosition(Position);
 	Grid getTargetGrid ();
-	
 };
 
 std::ostream & operator<< (std::ostream & ofs, Grid& g);

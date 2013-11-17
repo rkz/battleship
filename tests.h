@@ -15,5 +15,7 @@ void testAddShip ();
 void testShips ();
 void testShipTouched ();
 void testShipSunk ();
+void testShipGetCells ();
+void getShipAtPosition ();
 
 #endif /* TESTS_H_ */
