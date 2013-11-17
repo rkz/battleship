@@ -16,9 +16,9 @@ private:
     std::string name;
 public:
     Ship(std::vector<Cell*> cells, std::string name);
-    bool isSunk();
-    bool isTouched();
-    std::vector<Cell*> getCells();
+    bool isSunk() const;
+    bool isTouched() const;
+    std::vector<Cell*> getCells() const;
 };
 
 

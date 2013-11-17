@@ -14,6 +14,8 @@ void runTests ()
 	testPosition();
 	testGrid();
 	testShips();
+	testShipSunk();
+	testShipTouched();
 }
 
 void testPosition ()
@@ -38,4 +40,28 @@ void testShips ()
 	cells.push_back(new Cell(Position(1, 2)));
 	cells.push_back(new Cell(Position(2, 2)));
 	Ship myShip(cells, string("patrol boat"));
+}
+
+void testShipSunk ()
+{
+    cout << endl << "test de Ship.isSunk" << endl;
+    Position x(1,1), y(1,2);
+    Cell p(x,TOUCH), q(y);
+    vector<Cell*> cells;
+    cells.push_back(&p); cells.push_back(&q);
+    Ship myShip(cells, "patrol boat");
+    if(myShip.isSunk()==true) { cout<< "true" << endl; }
+    else { cout << "false" << endl; }
+}
+
+void testShipTouched ()
+{
+    cout << endl << "test de Ship.isTouched" << endl;
+    Position x(1,1), y(1,2);
+    Cell p(x), q(y);
+    vector<Cell*> cells;
+    cells.push_back(&p); cells.push_back(&q);
+    Ship myShip(cells, "patrol boat");
+    if(myShip.isTouched()==true) { cout<< "true" << endl; }
+    else { cout << "false" << endl; }
 }
