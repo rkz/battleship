@@ -99,7 +99,11 @@ void getShipAtPosition()
 {
     cout << endl << "test de Grid::getShipAtPosition" << endl;
     Grid myGrid(12);
-    cout << (myGrid.addShip(Position(1,1), VERTICAL, 2, "patrol boat") ? "OK" : "KO") << endl;
-    cout << (myGrid.addShip(Position(5,1), VERTICAL, 3, "cruiser") ? "OK" : "KO") << endl;
+    cout << "ajout patrol boat : " << (myGrid.addShip(Position(1,1), VERTICAL, 2, "patrol boat") ? "OK" : "KO") << endl;
+    cout << "ajout cruiser : " << (myGrid.addShip(Position(5,1), VERTICAL, 3, "cruiser") ? "OK" : "KO") << endl;
 
+    Position p(5, 4);
+    Ship* s = myGrid.getShipAtPosition(p);
+    if (s == 0) cout << "pas de bateau en " << p << endl;
+    else cout << "en " << p << " : " << s->getName() << endl;
 }

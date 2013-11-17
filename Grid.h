@@ -25,8 +25,9 @@ public:
 	Cell* getCell (Position position);
 	bool isPositionValid (Position position);
 	bool addShip (Position position, Direction direction, int length, std::string name);
-	// getShipAtPosition renvoie un pointeur vers le bateau présent à une position donnée (pointeur nul s'il n'y a pas de bateau) :
-	Ship* getShipAtPosition(Position) const;
+
+	// getShipAtPosition renvoie un pointeur vers le bateau prï¿½sent ï¿½ une position donnï¿½e (pointeur nul s'il n'y a pas de bateau) :
+	Ship* getShipAtPosition(Position);
 	Grid getTargetGrid ();
 };
 
