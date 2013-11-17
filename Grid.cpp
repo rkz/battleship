@@ -19,7 +19,10 @@ int Grid::getSize() const
 
 Cell* Grid::getCell(Position position)
 {
-	return &(grid[position.getX()][position.getY()]);
+	if (isPositionValid(position))
+		return (&grid[position.getX()][position.getY()]);
+	else
+		return 0;
 }
 
 bool Grid::isPositionValid(Position position)
