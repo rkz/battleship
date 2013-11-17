@@ -45,8 +45,6 @@ std::ostream & operator<<(std::ostream & ofs, Grid const& g)
 					break;
 				case TOUCH: ofs << "+ ";
 					break;
-				case SINK: ofs << "X ";
-					break;
 				default: ofs << "";
 					break;
 			}
