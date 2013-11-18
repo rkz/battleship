@@ -35,7 +35,7 @@ public:
 	Position(std::string pos);
 
 	// Copie d'une position
-	Position(Position&);
+	Position(const Position&);
 
 	// Lecture des coordonnées
 	int getX() const;

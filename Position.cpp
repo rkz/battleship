@@ -13,7 +13,7 @@ Position::Position(std::string pos)
     y = pos[1] - '1';
 }
 
-Position::Position(Position& other) : x(other.x), y(other.y)
+Position::Position(const Position& other) : x(other.x), y(other.y)
 {
 }
 
