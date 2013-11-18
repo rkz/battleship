@@ -1,3 +1,5 @@
+#ifndef BATTLESHIP_BUILD_TESTS
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -6,7 +8,7 @@ using namespace std;
 
 int main ()
 {
-	runTests();
-
 	return 0;
 }
+
+#endif

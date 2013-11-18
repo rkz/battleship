@@ -23,6 +23,7 @@ Battleship.1
 /.settings
 /Debug
 /Release
+/Tests
 
 # Visual Studio
 Battleship.vcxproj
