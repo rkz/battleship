@@ -1,3 +1,5 @@
+#ifdef BATTLESHIP_BUILD_TESTS
+
 #include <boost/test/unit_test.hpp>
 
 #include "Position.h"
@@ -54,3 +56,5 @@ BOOST_AUTO_TEST_CASE( cell_change_status )
 	c.setStatus(TOUCH);
 	BOOST_CHECK(c.getStatus() == TOUCH);
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifdef BATTLESHIP_BUILD_TESTS
+
 #include <boost/test/unit_test.hpp>
 
 #include "Position.h"
@@ -10,3 +12,5 @@ BOOST_AUTO_TEST_CASE( grid_create )
 	Grid g(10);
 	BOOST_CHECK(g.getSize() == 10);
 }
+
+#endif
