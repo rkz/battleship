@@ -28,4 +28,12 @@ BOOST_AUTO_TEST_CASE( grid_addShip )
 	BOOST_CHECK( g.getShipAtPosition(Position(3, 1)) != 0 );
 }
 
+BOOST_AUTO_TEST_CASE( grid_get_ship_at_position )
+{
+	Grid g(10);
+    g.addShip(Position(0, 0), HORIZONTAL, 3, "test ship");
+	BOOST_CHECK( g.getShipAtPosition(Position(1,0)) !=0 );
+	BOOST_CHECK( g.getShipAtPosition(Position(5, 5))==0);
+}
+
 #endif

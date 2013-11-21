@@ -57,4 +57,11 @@ BOOST_AUTO_TEST_CASE( cell_change_status )
 	BOOST_CHECK(c.getStatus() == TOUCH);
 }
 
+BOOST_AUTO_TEST_CASE( cell_get_status_as_string )
+{
+	Cell c(Position(1, 2));
+	c.setStatus(TOUCH);
+	BOOST_CHECK(c.getStatusAsString() == "touch");
+}
+
 #endif
