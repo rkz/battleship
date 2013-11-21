@@ -4,8 +4,6 @@
 #include <vector>
 using namespace std;
 
-#include "tests.h"
-
 int main ()
 {
 	return 0;
