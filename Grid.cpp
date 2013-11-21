@@ -30,7 +30,7 @@ Cell* Grid::getCell (Position position)
 	if (isPositionValid(position))
 		return &(grid[position.getX()][position.getY()]);
 	else
-		return 0;
+		throw OutOfGridException(position);
 }
 
 bool Grid::isPositionValid (Position position)

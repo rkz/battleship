@@ -2,6 +2,7 @@
 #define GRID_H_
 
 #include <vector>
+#include <exception>
 
 #include "Cell.h"
 #include "Ship.h"
@@ -32,8 +33,8 @@ public:
 	// Renvoie true si 'position' est sur la grille, false sinon
 	bool isPositionValid (Position position);
 
-	// Renvoie un pointeur vers la cellule se trouvant à la position donnée, ou un
-	// pointeur nul si aucune cellule à cet endroit (i.e. position hors grille)
+	// Renvoie un pointeur vers la cellule se trouvant à la position donnée
+	// Lance une exception si la position est hors grille
 	Cell* getCell (Position position);
 
 	// Ajoute un bateau à la grille, paramétré par la position de la première case,
@@ -57,6 +58,19 @@ public:
 // Affichage d'une grille sur un flux de sortie pour l'adversaire
 std::ostream & operator<< (std::ostream & ofs, Grid& g);
 
+
+/*
+ * OutOfGridException : lancée lorsqu'une cellule est en dehors de la grille
+ */
+class OutOfGridException : public std::exception
+{
+	Position position;
+
+public:
+	OutOfGridException (Position p) : position(p) {}
+
+	Position getPosition () { return position; }
+};
 
 #endif
 
