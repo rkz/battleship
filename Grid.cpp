@@ -70,10 +70,10 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	for (int i = 0; i < length; i++)
 	{
 		Position pos(x + i*dx, y + i*dy);
-		
+
 		if (getShipAtPosition(pos))
 			return false;
-		
+
 		Cell* c = getCell(pos);
 		assert(c != 0);
 		cells.push_back(c);
@@ -109,20 +109,43 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 		ofs << i+1 << ((i < 9) ? "  " : " ");
 
 		for (int j = 0; j < g_size; j++) {
-			assert(g.getCell(Position(i, j)) != 0);
-			switch (g.getCell(Position(i, j))->getStatus()) {
-				case UNKNOWN:
-					ofs << ". ";
-					break;
-				case WATER:
-					ofs << "  ";
-					break;
-				case TOUCH:
-					ofs << "+ ";
-					break;
-				default:
-					break;
-			}
+            Position pos(i,j);
+			assert(g.getCell(pos) != 0);
+			if (g.getShipAtPosition(pos))
+            {
+                switch (g.getCell(pos)->getStatus()) {
+                    case UNKNOWN:
+                        ofs << "X ";
+                        break;
+                    case WATER:
+                        assert(false);
+                        break;
+                    case TOUCH:
+                        if(g.getShipAtPosition(pos)->isSunk())
+                            ofs << "O ";
+                        else
+                            ofs << "+ ";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (g.getCell(pos)->getStatus()) {
+                    case UNKNOWN:
+                        ofs << ". ";
+                        break;
+                    case WATER:
+                        ofs << "  ";
+                        break;
+                    case TOUCH:
+                        assert(false);
+                        break;
+                    default:
+                        break;
+                }
+            }
 		}
 		ofs << std::endl;
 	}
@@ -141,3 +164,4 @@ Ship* Grid::getShipAtPosition (Position position)
 
 	return 0;
 }
+

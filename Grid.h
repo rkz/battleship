@@ -50,9 +50,13 @@ public:
 	// - les bateaux sont supprimés sauf ceux qui sont coulés, i.e. dont toutes les Cells sont
 	//   en statut TOUCH
 	Grid getTargetGrid ();
+
+
 };
 
-// Affichage d'une grille sur un flux de sortie
+// Affichage d'une grille sur un flux de sortie pour l'adversaire
 std::ostream & operator<< (std::ostream & ofs, Grid& g);
 
+
 #endif
+
