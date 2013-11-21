@@ -109,7 +109,7 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 		ofs << i+1 << ((i < 9) ? "  " : " ");
 
 		for (int j = 0; j < g_size; j++) {
-            Position pos(i,j);
+            Position pos(j,i);
 			assert(g.getCell(pos) != 0);
 			if (g.getShipAtPosition(pos))
             {
