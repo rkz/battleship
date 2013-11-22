@@ -40,7 +40,7 @@ bool Grid::isPositionValid (Position position)
 	return (x >= 0) && (x < size) && (y >= 0) && (y < size);
 }
 
-bool Grid::addShip (Position position, Direction direction, int length, std::string name)
+Ship* Grid::addShip (Position position, Direction direction, int length, std::string name)
 {
 	int x = position.getX();
 	int y = position.getY();
@@ -48,17 +48,17 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 	int dy = 0;
 
 	if (!isPositionValid (position) || length <= 0)
-		return false;
+		throw ShipOutOfGridException();
 
 	// Selon la direction, définir la direction sur laquelle itérer (dx et dy) et
 	// vérifier que le bateau ne va pas dépasser de la grille
 	switch (direction) {
 		case HORIZONTAL:
-			if (x+length > size) return false;
+			if (x+length > size) throw ShipOutOfGridException();
 			dx = 1;
 			break;
 		case VERTICAL:
-			if (y+length > size) return false;
+			if (y+length > size) throw ShipOutOfGridException();
 			dy = 1;
 			break;
 		default:
@@ -72,16 +72,15 @@ bool Grid::addShip (Position position, Direction direction, int length, std::str
 		Position pos(x + i*dx, y + i*dy);
 
 		if (getShipAtPosition(pos))
-			return false;
+			throw ShipCollisionException();
 
 		Cell* c = getCell(pos);
-		assert(c != 0);
 		cells.push_back(c);
 	}
 
-	// Ajouter le bateau à la grille
+	// Ajouter le bateau à la grille et renvoyer un pointeur
 	ships.push_back(Ship(cells, name));
-	return true;
+	return &ships[ships.size() - 1];
 }
 
 Grid Grid::getTargetGrid ()

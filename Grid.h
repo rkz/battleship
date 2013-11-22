@@ -39,8 +39,9 @@ public:
 
 	// Ajoute un bateau à la grille, paramétré par la position de la première case,
 	// une direction (HORIZONTAL ou VERTICAL), une longueur et un nom.
-	// Renvoie true si le bateau a été ajouté, false sinon (par exemple dépassement de grille)
-	bool addShip (Position position, Direction direction, int length, std::string name);
+	// Renvoie un pointeur vers le bateau s'il a été ajouté, sinon lève une exception
+	// ShipCreationExeception (par exemple en cas de dépassement de grille)
+	Ship* addShip (Position position, Direction direction, int length, std::string name);
 
 	// Renvoie un pointeur vers le bateau présent à une position donnée, ou un pointeur
 	// nul si aucun bateau ne s'y trouve (cellule vide ou position hors grille)
@@ -72,5 +73,24 @@ public:
 	Position getPosition () { return position; }
 };
 
-#endif
 
+/*
+ * ShipOutOfGridException : lancée lorsqu'un bateau en cours de création dépasse de la grille
+ */
+class ShipOutOfGridException : public std::exception
+{
+public:
+	ShipOutOfGridException () {}
+};
+
+
+/*
+ * ShipCollisionException : lancée lorsqu'un bateau en cours de création recoupe un autre bateau
+ */
+class ShipCollisionException : public std::exception
+{
+public:
+	ShipCollisionException () {}
+};
+
+#endif

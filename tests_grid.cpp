@@ -21,11 +21,21 @@ BOOST_AUTO_TEST_CASE( grid_addShip )
 {
 	Grid g(10);
 
-	BOOST_CHECK( g.addShip(Position(1, 1), HORIZONTAL, 3, "test ship") );
+	// créer un bateau
+	Ship* s = g.addShip(Position(1, 1), HORIZONTAL, 3, "test ship");
+	BOOST_CHECK( s->getCells().size() == 3 );
 
+	// contrôler les cases de ce bateau
 	BOOST_CHECK( g.getShipAtPosition(Position(1, 1)) != 0 );
 	BOOST_CHECK( g.getShipAtPosition(Position(2, 1)) != 0 );
 	BOOST_CHECK( g.getShipAtPosition(Position(3, 1)) != 0 );
+
+	// créer des bateaux "hors grille"
+	BOOST_CHECK_THROW( g.addShip(Position(12, 12), HORIZONTAL, 3, "out of grid ship"), ShipOutOfGridException );
+	BOOST_CHECK_THROW( g.addShip(Position(1, 2), HORIZONTAL, 20, "super-long ship"), ShipOutOfGridException );
+
+	// créer un bateau en collision
+	BOOST_CHECK_THROW( g.addShip(Position(2, 1), VERTICAL, 5, "colliding ship"), ShipCollisionException );
 }
 
 BOOST_AUTO_TEST_CASE( grid_get_ship_at_position )
