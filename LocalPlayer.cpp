@@ -23,8 +23,7 @@ LocalPlayer::~LocalPlayer()
 
 void LocalPlayer::initFleet()
 {
-    cout << "Please set your fleet" << endl << endl << "You're going to play with :" << endl;
-
+    cout << "Please set your fleet" << endl << endl << "You're going to play with:" << endl;
 
     placeShip("aircraft carrier", 5);
     placeShip("battleship", 4);
@@ -35,13 +34,13 @@ void LocalPlayer::initFleet()
 
 void LocalPlayer::placeShip(string name, int length)
 {
-    system("cls");
+    //system("cls");
     string posString;
     string dirString;
 
     cout << (*grid) << endl << endl;
-    cout << "Place your " << name << "( " << length << ")" << endl;
-    cout << "Top left Position (example A1): ";
+    cout << "Place your " << name << "(" << length << ")" << endl;
+    cout << "E.g. 'A1' for top left position: ";
     cin >> posString;
     cout << endl;
     bool firstTime = true;
