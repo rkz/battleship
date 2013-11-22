@@ -1,5 +1,7 @@
 #include "Game.h"
 
+using namespace std;
+
 Game::Game(AbstractPlayer* _player1, AbstractPlayer* _player2)
     : player1(_player1), player2(_player2)
 {
@@ -16,29 +18,46 @@ void Game::run ()
     while (!gameover)
     {
         if (!(turnNb % 2))
+        {
+            cout << "Player1, your turn to shoot!" << endl;
             gameover = turn(player1, player2);
+        }
         else
+        {
+            cout << "Player2, your turn to shoot!" << endl;
             gameover = turn(player2, player1);
+        }
         turnNb++;
     }
     
     if (turnNb % 2)
-        std::cout << "Le joueur 1 a gagné la partie !" << std::endl;
+        cout << "Player1 wins the game!" << endl;
     else
-        std::cout << "Le joueur 2 a gagné la partie !" << std::endl;
+        cout << "Player2 wins the game!" << endl;
 }
 
 void Game::init ()
 {
+    cout << "Player1, time to init your fleet!" << endl;
     player1->initFleet();
+    cout << "Player2, time to init your fleet!" << endl;
     player2->initFleet();
 }
 
 bool Game::turn (AbstractPlayer* toplay, AbstractPlayer* target)
 {
     Grid* targetGrid = target->getTargetGrid();
-    Position p = toplay->play(targetGrid);
-    ShotResult sr = target->shoot(p);
-    toplay->showResult(sr);
-    return sr.isWinning();
+    bool validShot = false;
+    bool gameover = false;
+    
+    while (!validShot)
+    {
+        Position p = toplay->play(targetGrid);
+        ShotResult sr = target->shoot(p);
+        validShot = sr.isValid();
+        gameover = sr.isWinning();
+        toplay->showResult(sr);
+    }
+    
+    return gameover;
 }
