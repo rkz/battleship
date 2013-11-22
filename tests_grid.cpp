@@ -39,12 +39,17 @@ BOOST_AUTO_TEST_CASE( grid_get_ship_at_position )
 BOOST_AUTO_TEST_CASE( grid_get_targetgrid )
 {
 	Grid g(10);
+
     g.addShip(Position(0, 0), HORIZONTAL, 3, "test cruiser");
-    g.addShip(Position(4,1), VERTICAL, 5, "test aircraft carrier");
-    g.getCell(Position(0,0))->setStatus(TOUCH); g.getCell(Position(1,0))->setStatus(TOUCH); g.getCell(Position(2,0))->setStatus(TOUCH);
-    Grid g1=g.getTargetGrid();
-	BOOST_CHECK( g1.getShipAtPosition(Position(1,0))!=0 );
-	BOOST_CHECK( g1.getShipAtPosition(Position(4, 3))==0);
+    g.addShip(Position(4, 1), VERTICAL, 5, "test aircraft carrier");
+
+    g.getCell(Position(0, 0))->setStatus(TOUCH);
+    g.getCell(Position(1, 0))->setStatus(TOUCH);
+    g.getCell(Position(2, 0))->setStatus(TOUCH);
+
+    Grid g1 = g.getTargetGrid();
+	BOOST_CHECK( g1.getShipAtPosition(Position(1, 0)) != 0 );
+	BOOST_CHECK( g1.getShipAtPosition(Position(4, 3)) == 0 );
 }
 
 #endif
