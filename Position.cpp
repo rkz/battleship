@@ -9,8 +9,17 @@ Position::Position(int _x, int _y) : x(_x), y(_y)
 
 Position::Position(std::string pos)
 {
-    x = toInt(pos[0]);
-    y = pos[1] - '1';
+    if (pos.length() < 2 || pos.length() > 3) throw InvalidPositionString(pos);
+
+    try {
+		x = toInt(pos[0]);
+		y = numberToInt(pos.substr(1)) - 1;
+
+		if (x > 25 || y > 25) throw InvalidPositionString(pos);
+    }
+    catch (std::invalid_argument&) {
+    	throw InvalidPositionString(pos);
+    }
 }
 
 Position::Position(const Position& other) : x(other.x), y(other.y)
@@ -29,6 +38,8 @@ int Position::getY() const
 
 char Position::toLetter(int x)
 {
+	if (x < 0 || x > 25) throw std::invalid_argument("x");
+
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     return alphabet.at(x);
 }
@@ -36,7 +47,20 @@ char Position::toLetter(int x)
 int Position::toInt(char a)
 {
     std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    return alphabet.find_first_of(a);
+    int pos = alphabet.find_first_of(a);
+
+    if (pos != std::string::npos) return pos;
+    else throw std::invalid_argument("a");
+}
+
+int Position::numberToInt(std::string numberString)
+{
+	std::istringstream is(numberString);
+	int n = 0;
+	is >> n;
+
+	if (n != 0) return n;
+	else throw std::invalid_argument("numberString");
 }
 
 std::string Position::toString() const

@@ -7,8 +7,8 @@
  * x = numéro de colonne (abscisse)
  * y = numéro de ligne (ordonnée)
  *
- * Une position se code en "lettre chiffre" pour le plateau.
- * Par exemple, (0, 0) <-> "A1" et (3, 2) <-> "D3"
+ * Une position se code en une chaîne de 2 ou 3 caractères pour le plateau.
+ * Par exemple, (0, 0) <-> "A1" et (3, 20) <-> "D21"
  * Ce codage implique que les grilles ne peuvent pas dépasser 26*26 cases.
  *
  * Il n'y a pas de lien entre une position et une grille (les positions sont
@@ -45,8 +45,9 @@ public:
 	std::string toString() const;
 
 	// Helpers pour convertir les lettres de A à Z en nombres et vice-versa
-	static char toLetter(int x);
-	static int toInt(char a);
+	static char toLetter(int x); // 5 -> "F"
+	static int toInt(char a); // "F" -> 5
+	static int numberToInt(std::string numberString); // "12" -> 12
 };
 
 // Comparaison de positions
@@ -55,5 +56,15 @@ bool operator!=(Position const& a, Position const& b);
 
 // Affichage d'une position sur un flux de sortie (utilise toString)
 std::ostream & operator<<(std::ostream & ofs, Position const& p);
+
+// Invalid position
+class InvalidPositionString : public std::exception
+{
+	std::string str;
+
+public:
+	InvalidPositionString(std::string _str = "") throw() : str(_str) {}
+	~InvalidPositionString() throw() {}
+};
 
 #endif /* POSITION_H_ */

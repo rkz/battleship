@@ -23,6 +23,17 @@ BOOST_AUTO_TEST_CASE( position_fromString )
 	Position p("C4");
 	BOOST_CHECK(p.getX() == 2);
 	BOOST_CHECK(p.getY() == 3);
+
+	// y sur deux chiffres
+	Position q("Z12");
+	BOOST_CHECK(q.getX() == 25);
+	BOOST_CHECK(q.getY() == 11);
+
+	// position non admise (y > 26)
+	BOOST_CHECK_THROW( Position r("Z35"), InvalidPositionString );
+
+	// chaîne pas sur le modèle "A1"
+	BOOST_CHECK_THROW( Position s("rien"), InvalidPositionString );
 }
 
 BOOST_AUTO_TEST_CASE( position_compare )
