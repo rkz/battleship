@@ -5,3 +5,7 @@ ShotResult::ShotResult()
 
 }
 
+bool ShotResult::isWinning()
+{
+    return winningShot;
+}

@@ -9,10 +9,20 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include <iostream>
+#include "AbstractPlayer.h"
+
 class Game
 {
+private:
+    AbstractPlayer* player1;
+    AbstractPlayer* player2;
+    
 public:
-	Game();
+	Game (AbstractPlayer* player1, AbstractPlayer* player2);
+    void run ();
+    void init ();
+    bool turn (AbstractPlayer* toplay, AbstractPlayer* target);
 };
 
 #endif /* GAME_H_ */

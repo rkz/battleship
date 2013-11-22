@@ -9,8 +9,12 @@
 
 class ShotResult
 {
+private:
+    bool winningShot;
+    
 public:
 	ShotResult();
+    bool isWinning();
 };
 
 #endif /* SHOTRESULT_H_ */
