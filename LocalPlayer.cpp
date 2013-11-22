@@ -34,7 +34,7 @@ void LocalPlayer::initFleet()
 
 void LocalPlayer::placeShip(string name, int length)
 {
-    //system("cls");
+    system("cls");
     string posString;
     string dirString;
 
@@ -63,25 +63,36 @@ void LocalPlayer::placeShip(string name, int length)
     {
         grid->addShip(Position(posString), VERTICAL, length, name);
     }
-
 }
 
 Grid* LocalPlayer::getTargetGrid()
 {
-
+    return new Grid (grid->getTargetGrid());
 }
 
 Position LocalPlayer::play(Grid* targetGrid)
 {
-
+    system("cls");
+    string targetString;
+    
+    cout << "Target grid :" << endl;
+    cout << targetGrid << endl;
+    cout << "Which position do you want to shoot?" << endl;
+    cout << "E.g. 'A1' for top left position: ";
+    cin >> targetString;
+    cout << endl;
+    
+    return Position(targetString);
 }
 
 ShotResult LocalPlayer::shoot(Position p)
 {
-
+    return *grid->shoot(p);
 }
 
 void LocalPlayer::showResult(ShotResult sr)
 {
-
+    cout << "Result: " << sr.getResultAsString() << endl;
+    cout << "Target grid:" << endl;
+    sr.printTargetGrid();
 }
