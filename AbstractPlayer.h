@@ -13,6 +13,10 @@
 
 class AbstractPlayer
 {
+protected:
+    std::string name;
+    Grid* grid;
+
 public:
 	virtual void initFleet() = 0;
 	virtual Grid* getTargetGrid() = 0;

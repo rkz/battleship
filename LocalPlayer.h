@@ -13,12 +13,16 @@ class LocalPlayer: public AbstractPlayer
 {
 public:
 	LocalPlayer();
+	~LocalPlayer();
 
 	void initFleet();
 	Grid* getTargetGrid();
 	Position play(Grid* targetGrid);
 	ShotResult shoot(Position p);
 	void showResult(ShotResult sr);
+
+private:
+    void placeShip(std::string name, int length);
 };
 
 #endif /* LOCALPLAYER_H_ */
