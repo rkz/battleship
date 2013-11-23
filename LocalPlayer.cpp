@@ -30,17 +30,18 @@ void LocalPlayer::initFleet()
     cout << " 1 destroyer" << " : ( " << " 3 cells " << " )" << endl;
     cout << " 1 patrol boat" << " : ( " << " 2 cells " << " )" << endl;
 
-    while( !placeShip("aircraft carrier", 5) ) { placeShip("aircraft carrier", 5); }
-    while( !placeShip("battleship", 4) ) { placeShip("battleship", 4); }
-    while( !placeShip("submarine", 3) ) { placeShip("submarine", 3); }
-    while( !placeShip("destroyer", 3) ) { placeShip("destroyer", 3); }
-    while( !placeShip("patrol boat", 2) ) { placeShip("patrol boat", 2); }
+    system("PAUSE");
+
+    while (!placeShip("aircraft carrier", 5)) {}
+    while (!placeShip("battleship", 4)) {}
+    while (!placeShip("submarine", 3)) {}
+    while (!placeShip("destroyer", 3)) {}
+    while (!placeShip("patrol boat", 2)) {}
 }
 
 bool LocalPlayer::placeShip(string name, int length)
 {
     system("cls");
-    bool result(true);
     cout << (*grid) << endl;
 
     cout << "Please place your " << name << " ( " << length << "cells" << " ) " << endl << endl;
@@ -80,19 +81,19 @@ bool LocalPlayer::placeShip(string name, int length)
     // Placer le bateau
     try {
         grid->addShip(pos, dir, length, name);
+        return true;
     }
     catch (ShipOutOfGridException& e) {
-    cout << " Ship out of grid, please retry." << endl;
-    result = false;
-    system("PAUSE");
+        cout << " Ship out of grid, please retry." << endl;
+        system("PAUSE");
+        return false;
     }
     catch (ShipCollisionException& e) {
-    cout << "There's already another ship at this position, please retry." << endl;
-    result = false;
-    system("PAUSE");
+        cout << "There's already another ship at this position, please retry." << endl;
+        system("PAUSE");
+        return false;
     }
 
-    return result;
 }
 
 Grid* LocalPlayer::getTargetGrid()
