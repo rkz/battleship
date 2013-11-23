@@ -141,7 +141,7 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
                         ofs << "  ";
                         break;
                     case TOUCH:
-                        assert(false);
+                        ofs << "+ ";
                         break;
                     default:
                         break;
