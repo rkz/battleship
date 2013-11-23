@@ -24,20 +24,26 @@ LocalPlayer::~LocalPlayer()
 void LocalPlayer::initFleet()
 {
     cout << "Please set your fleet" << endl << endl << "You're going to play with:" << endl;
+    cout << " 1 aircraft carrier" << " : ( " << " 5 cells " << " )" << endl;
+    cout << " 1 battleship" << " : ( " << " 4 cells " << " )" << endl;
+    cout << " 1 submarine" << " : ( " << " 3 cells " << " )" << endl;
+    cout << " 1 destroyer" << " : ( " << " 3 cells " << " )" << endl;
+    cout << " 1 patrol boat" << " : ( " << " 2 cells " << " )" << endl;
 
-    placeShip("aircraft carrier", 5);
-    placeShip("battleship", 4);
-    placeShip("submarine", 3);
-    placeShip("destroyer", 3);
-    placeShip("patrol boat", 2);
+    while( !placeShip("aircraft carrier", 5) ) { placeShip("aircraft carrier", 5); }
+    while( !placeShip("battleship", 4) ) { placeShip("battleship", 4); }
+    while( !placeShip("submarine", 3) ) { placeShip("submarine", 3); }
+    while( !placeShip("destroyer", 3) ) { placeShip("destroyer", 3); }
+    while( !placeShip("patrol boat", 2) ) { placeShip("patrol boat", 2); }
 }
 
-void LocalPlayer::placeShip(string name, int length)
+bool LocalPlayer::placeShip(string name, int length)
 {
     system("cls");
+    bool result(true);
     cout << (*grid) << endl;
 
-    cout << "Please place your " << name << "(" << length << ")" << endl << endl;
+    cout << "Please place your " << name << " ( " << length << "cells" << " ) " << endl << endl;
 
     // Saisie de la position
     Position pos(-1, -1);
@@ -72,7 +78,21 @@ void LocalPlayer::placeShip(string name, int length)
     else dir = VERTICAL;
 
     // Placer le bateau
-    grid->addShip(pos, dir, length, name);
+    try {
+        grid->addShip(pos, dir, length, name);
+    }
+    catch (ShipOutOfGridException& e) {
+    cout << " Ship out of grid, please retry." << endl;
+    result = false;
+    system("PAUSE");
+    }
+    catch (ShipCollisionException& e) {
+    cout << "There's already another ship at this position, please retry." << endl;
+    result = false;
+    system("PAUSE");
+    }
+
+    return result;
 }
 
 Grid* LocalPlayer::getTargetGrid()
@@ -84,14 +104,14 @@ Position LocalPlayer::play(Grid* targetGrid)
 {
     system("cls");
     string targetString;
-    
+
     cout << "Target grid :" << endl;
     cout << (*targetGrid) << endl;
     cout << "Which position do you want to shoot?" << endl;
     cout << "E.g. 'A1' for top left position: ";
     cin >> targetString;
     cout << endl;
-    
+
     return Position(targetString);
 }
 
