@@ -35,34 +35,44 @@ void LocalPlayer::initFleet()
 void LocalPlayer::placeShip(string name, int length)
 {
     system("cls");
-    string posString;
-    string dirString;
+    cout << (*grid) << endl;
 
-    cout << (*grid) << endl << endl;
-    cout << "Place your " << name << "(" << length << ")" << endl;
-    cout << "E.g. 'A1' for top left position: ";
-    cin >> posString;
-    cout << endl;
-    bool firstTime = true;
+    cout << "Please place your " << name << "(" << length << ")" << endl << endl;
+
+    // Saisie de la position
+    Position pos(-1, -1);
+    while (pos == Position(-1, -1)) {
+		cout << "Top left position (e.g. A1): ";
+		string posString;
+		cin >> posString;
+		try {
+			pos = Position(posString);
+		}
+		catch (InvalidPositionString& e) {
+			cout << "'" << e.what() << "' is not a valid position, please retry." << endl;
+		}
+    }
+
+    // Saisie de la direction
+    string dirString;
+    bool firstTry = true;
     while (dirString != "h" && dirString != "H" && dirString != "v" && dirString != "V")
     {
-        if(firstTime)
+        if (!firstTry)
         {
-            cout << "For Horizontal, please press 'h' and for Vertical press 'v'" << endl;
+            cout << "'" << dirString << "' is not a valid direction, please retry (type h or v)." << endl;
         }
-        cout << "Direction (h/v): ";
+        cout << "Direction (h or v): ";
         cin >> dirString;
-        firstTime = false;
+        firstTry = false;
     }
 
-    if (dirString == "h" || dirString == "H")
-    {
-       grid->addShip(Position(posString), HORIZONTAL, length, name);
-    }
-    else if (dirString == "v" || dirString == "V")
-    {
-        grid->addShip(Position(posString), VERTICAL, length, name);
-    }
+    Direction dir;
+    if (dirString == "h" || dirString == "H") dir = HORIZONTAL;
+    else dir = VERTICAL;
+
+    // Placer le bateau
+    grid->addShip(pos, dir, length, name);
 }
 
 Grid* LocalPlayer::getTargetGrid()
@@ -76,7 +86,7 @@ Position LocalPlayer::play(Grid* targetGrid)
     string targetString;
     
     cout << "Target grid :" << endl;
-    cout << targetGrid << endl;
+    cout << (*targetGrid) << endl;
     cout << "Which position do you want to shoot?" << endl;
     cout << "E.g. 'A1' for top left position: ";
     cin >> targetString;
