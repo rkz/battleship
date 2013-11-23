@@ -31,7 +31,7 @@ public:
     bool isValid() const;
     bool isWinning() const;
     std::string getResultAsString() const;
-    void printTargetGrid ();
+    Grid* getTargetGrid () const;
 };
 
 #endif /* SHOTRESULT_H_ */

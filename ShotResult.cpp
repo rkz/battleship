@@ -27,7 +27,7 @@ std::string ShotResult::getResultAsString() const
     };
 }
 
-void ShotResult::printTargetGrid()
+Grid* ShotResult::getTargetGrid() const
 {
-    std::cout << targetGrid << std::endl;
+    return new Grid (targetGrid);
 }

@@ -104,5 +104,5 @@ void LocalPlayer::showResult(ShotResult sr)
 {
     cout << "Result: " << sr.getResultAsString() << endl;
     cout << "Target grid:" << endl;
-    sr.printTargetGrid();
+    cout << *sr.getTargetGrid() << endl;
 }
