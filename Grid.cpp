@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include "ShotResult.h"
 
 #include <cassert>
 
@@ -107,7 +108,8 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 	{
 		ofs << i+1 << ((i < 9) ? "  " : " ");
 
-		for (int j = 0; j < g_size; j++) {
+		for (int j = 0; j < g_size; j++)
+        {
             Position pos(j,i);
 			assert(g.getCell(pos) != 0);
 			if (g.getShipAtPosition(pos))
@@ -164,3 +166,31 @@ Ship* Grid::getShipAtPosition (Position position)
 	return 0;
 }
 
+bool Grid::allShipsSunk ()
+{
+    for (unsigned int i = 0; i < ships.size(); i++) {
+        if (!ships[i].isSunk())
+            return false;
+    }
+    return true;
+}
+
+ShotResult* Grid::shoot (Position p)
+{
+    Cell* targetCell = getCell(p);
+    if (targetCell->getStatus() != UNKNOWN)
+        return new ShotResult (ShotResult(getTargetGrid(), ALREADY_PLAYED, false));
+    
+    Ship* targetShip = getShipAtPosition(p);
+    if (!targetShip)
+    {
+        targetCell->setStatus(WATER);
+        return new ShotResult (ShotResult(getTargetGrid(), MISSED, false));
+    }
+    
+    targetCell->setStatus(TOUCH);
+    if (targetShip->isSunk())
+        return new ShotResult (ShotResult(getTargetGrid(), SUNK, allShipsSunk()));
+    else
+        return new ShotResult (ShotResult(getTargetGrid(), TOUCHED, false));
+}

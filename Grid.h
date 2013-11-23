@@ -13,6 +13,8 @@ enum Direction
 	VERTICAL = 1
 };
 
+class ShotResult;
+
 class Grid
 {
 private:
@@ -45,14 +47,19 @@ public:
 
 	// Renvoie un pointeur vers le bateau présent à une position donnée, ou un pointeur
 	// nul si aucun bateau ne s'y trouve (cellule vide ou position hors grille)
-	Ship* getShipAtPosition(Position);
+	Ship* getShipAtPosition (Position);
+    
+    // Renvoie true si tous les bateaux sont coulés (partie perdue)
+    bool allShipsSunk ();
 
 	// Copie la grille en une "target grid", vue de la grille destinée à l'adversaire :
 	// - les statuts des Cells sont conservés
 	// - les bateaux sont supprimés sauf ceux qui sont coulés, i.e. dont toutes les Cells sont
 	//   en statut TOUCH
 	Grid getTargetGrid ();
-
+    
+    // A partir d'une position de tir, met à jour la Cell cible et calcule le ShoResult associé
+    ShotResult* shoot (Position p);
 
 };
 
