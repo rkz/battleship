@@ -24,8 +24,8 @@ class ShotResult
 private:
     Grid targetGrid;
     Result result;
-    bool winningShot = false;
-    
+    bool winningShot;
+
 public:
 	ShotResult(Grid targetGrid, Result result, bool winningShot);
     bool isValid() const;

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include "Position.h"
+#include <stdexcept>
 
 Position::Position(int _x, int _y) : x(_x), y(_y)
 {
