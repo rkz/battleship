@@ -11,8 +11,8 @@ using namespace std;
 int main ()
 {
     
-    AbstractPlayer* player1 = new LocalPlayer();
-    AbstractPlayer* player2 = new LocalPlayer();
+    AbstractPlayer* player1 = new LocalPlayer("Player 1");
+    AbstractPlayer* player2 = new LocalPlayer("Player 2");
 
     Game game = Game(player1, player2);
     game.run();

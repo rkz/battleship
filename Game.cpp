@@ -38,9 +38,7 @@ void Game::run ()
 
 void Game::init ()
 {
-    cout << "Player1, time to init your fleet!" << endl;
     player1->initFleet();
-    cout << "Player2, time to init your fleet!" << endl;
     player2->initFleet();
 }
 

@@ -12,7 +12,7 @@
 class LocalPlayer: public AbstractPlayer
 {
 public:
-	LocalPlayer();
+	LocalPlayer(std::string name);
 	~LocalPlayer();
 
 	void initFleet();
@@ -22,7 +22,10 @@ public:
 	void showResult(ShotResult sr);
 
 private:
+	void printInitFleetTitle();
     bool placeShip(std::string name, int length);
+
+    std::string name;
 };
 
 #endif /* LOCALPLAYER_H_ */

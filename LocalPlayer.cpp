@@ -11,7 +11,7 @@
 
 using namespace std;
 
-LocalPlayer::LocalPlayer()
+LocalPlayer::LocalPlayer (string _name) : name(_name)
 {
     grid = new Grid(12);
 }
@@ -23,12 +23,16 @@ LocalPlayer::~LocalPlayer()
 
 void LocalPlayer::initFleet()
 {
-    cout << "Please set your fleet" << endl << endl << "You're going to play with:" << endl;
-    cout << " 1 aircraft carrier" << " : ( " << " 5 cells " << " )" << endl;
-    cout << " 1 battleship" << " : ( " << " 4 cells " << " )" << endl;
-    cout << " 1 submarine" << " : ( " << " 3 cells " << " )" << endl;
-    cout << " 1 destroyer" << " : ( " << " 3 cells " << " )" << endl;
-    cout << " 1 patrol boat" << " : ( " << " 2 cells " << " )" << endl;
+	system("cls");
+	printInitFleetTitle();
+
+    cout << "Please set your fleet." << endl << endl;
+    cout << "In the next screens, please place your ships in the following order:" << endl;
+    cout << "    - 1 aircraft carrier (5 cells)" << endl;
+    cout << "    - 1 battleship (4 cells)" << endl;
+    cout << "    - 1 submarine (3 cells)" << endl;
+    cout << "    - 1 destroyer (3 cells)" << endl;
+    cout << "    - 1 patrol boat (2 cells)" << endl << endl;
 
     system("pause");
 
@@ -37,14 +41,30 @@ void LocalPlayer::initFleet()
     while (!placeShip("submarine", 3)) {}
     while (!placeShip("destroyer", 3)) {}
     while (!placeShip("patrol boat", 2)) {}
+
+    system("cls");
+    printInitFleetTitle();
+
+    cout << (*grid) << endl;
+
+    cout << "Your grid is ready." << endl;
+    system("pause");
+}
+
+void LocalPlayer::printInitFleetTitle ()
+{
+	cout << name << ": fleet initialization" << endl;
+	cout << "--------------------------------------------------" << endl << endl;
 }
 
 bool LocalPlayer::placeShip(string name, int length)
 {
     system("cls");
+    printInitFleetTitle();
+
     cout << (*grid) << endl;
 
-    cout << "Please place your " << name << " ( " << length << "cells" << " ) " << endl << endl;
+    cout << "Please place your " << name << " (" << length << "cells" << ") " << endl << endl;
 
     // Saisie de la position
     Position pos(-1, -1);
@@ -81,6 +101,7 @@ bool LocalPlayer::placeShip(string name, int length)
     // Placer le bateau
     try {
         grid->addShip(pos, dir, length, name);
+        cout << endl << "OK." << endl << endl;
         return true;
     }
     catch (ShipOutOfGridException& e) {
