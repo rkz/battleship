@@ -22,7 +22,7 @@ public:
 	void showResult(ShotResult sr);
 
 private:
-    void placeShip(std::string name, int length);
+    bool placeShip(std::string name, int length);
 };
 
 #endif /* LOCALPLAYER_H_ */
