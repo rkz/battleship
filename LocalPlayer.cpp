@@ -30,7 +30,7 @@ void LocalPlayer::initFleet()
     cout << " 1 destroyer" << " : ( " << " 3 cells " << " )" << endl;
     cout << " 1 patrol boat" << " : ( " << " 2 cells " << " )" << endl;
 
-    system("PAUSE");
+    system("pause");
 
     while (!placeShip("aircraft carrier", 5)) {}
     while (!placeShip("battleship", 4)) {}
@@ -85,12 +85,12 @@ bool LocalPlayer::placeShip(string name, int length)
     }
     catch (ShipOutOfGridException& e) {
         cout << " Ship out of grid, please retry." << endl;
-        system("PAUSE");
+        system("pause");
         return false;
     }
     catch (ShipCollisionException& e) {
         cout << "There's already another ship at this position, please retry." << endl;
-        system("PAUSE");
+        system("pause");
         return false;
     }
 
