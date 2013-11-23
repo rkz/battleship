@@ -97,6 +97,7 @@ bool LocalPlayer::placeShip(string name, int length)
 
 Grid* LocalPlayer::getTargetGrid()
 {
+	// Risque de fuite mémoire (a priori minime)
     return new Grid (grid->getTargetGrid());
 }
 
