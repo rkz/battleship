@@ -70,7 +70,7 @@ public:
 	InvalidPositionString(std::string _str = "") throw() : str(_str) {}
 	~InvalidPositionString() throw() {}
 
-	std::string what () { return str; }
+	std::string getPositionString () { return str; }
 };
 
 #endif /* POSITION_H_ */

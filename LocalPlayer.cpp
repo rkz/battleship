@@ -76,7 +76,7 @@ bool LocalPlayer::placeShip(string name, int length)
 			pos = Position(posString);
 		}
 		catch (InvalidPositionString& e) {
-			cout << "'" << e.what() << "' is not a valid position, please retry." << endl;
+			cout << "'" << e.getPositionString() << "' is not a valid position, please retry." << endl;
 		}
     }
 
