@@ -132,24 +132,36 @@ Position LocalPlayer::play(Grid* targetGrid)
     system("cls");
     string targetString;
 
-    cout << "Target grid :" << endl;
+    cout << "Target grid:" << endl;
     cout << (*targetGrid) << endl;
-    cout << "Which position do you want to shoot?" << endl;
-    cout << "E.g. 'A1' for top left position: ";
-    cin >> targetString;
-    cout << endl;
 
-    return Position(targetString);
+    while (true) {
+    	cout << "Which position do you want to shoot?" << endl;
+		cout << "(e.g. 'A1' for top left position)";
+		cin >> targetString;
+		try {
+			Position pos(targetString);
+			if (!grid->isPositionValid(pos)) throw OutOfGridException(pos);
+			return pos;
+		}
+		catch (InvalidPositionString& e) {
+			cout << "'" << e.getPositionString() << "' is not a valid position, please retry." << endl << endl;
+		}
+		catch (OutOfGridException& e) {
+			cout << e.getPosition() << " is out of grid, please retry." << endl << endl;
+		}
+    }
 }
 
 ShotResult LocalPlayer::shoot(Position p)
 {
-    return *grid->shoot(p);
+    return *(grid->shoot(p));
 }
 
 void LocalPlayer::showResult(ShotResult sr)
 {
-    cout << "Result: " << sr.getResultAsString() << endl;
+    cout << endl << "Result: " << sr.getResultAsString() << endl;
     cout << "Target grid:" << endl;
     cout << *sr.getTargetGrid() << endl;
+    system("pause");
 }
