@@ -19,6 +19,7 @@
 #ifndef POSITION_H_
 #define POSITION_H_
 
+#include <vector>
 #include <ostream>
 
 class Position
@@ -43,6 +44,9 @@ public:
 
 	// Conversion de Position(1,1) en "B2"
 	std::string toString() const;
+
+	// Liste des Positions adajacentes
+	std::vector<Position> adjacent() const;
 
 	// Helpers pour convertir les lettres de A à Z en nombres et vice-versa
 	static char toLetter(int x); // 5 -> "F"

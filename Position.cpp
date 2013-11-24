@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
+#include <vector>
 #include "Position.h"
 #include <stdexcept>
 
@@ -92,4 +93,15 @@ std::ostream & operator<<(std::ostream & ofs, Position const& p)
 {
     ofs << p.toString();
     return ofs;
+}
+
+std::vector<Position> Position::adjacent() const
+{
+    std::vector<Position> adjacentPos;
+    adjacentPos.push_back(Position(x+1,y));
+    adjacentPos.push_back(Position(x-1,y));
+    adjacentPos.push_back(Position(x,y+1));
+    adjacentPos.push_back(Position(x,y-1));
+
+    return adjacentPos;
 }

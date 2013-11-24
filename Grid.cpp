@@ -75,6 +75,9 @@ Ship* Grid::addShip (Position position, Direction direction, int length, std::st
 		if (getShipAtPosition(pos))
 			throw ShipCollisionException();
 
+        if (getShipNearPosition(pos))
+            throw ShipNearbyException();
+
 		Cell* c = getCell(pos);
 		cells.push_back(c);
 	}
@@ -166,6 +169,16 @@ Ship* Grid::getShipAtPosition (Position position)
 	return 0;
 }
 
+bool Grid::getShipNearPosition( Position position)
+{
+    std::vector<Position> adjacentPos = position.adjacent();
+    for(int i = 0; i < 4; i++) {
+        if (isPositionValid( adjacentPos[i])) if (getShipAtPosition(adjacentPos[i])) return true;
+    }
+    return false;
+    }
+
+
 bool Grid::allShipsSunk ()
 {
     for (unsigned int i = 0; i < ships.size(); i++) {
@@ -180,14 +193,14 @@ ShotResult* Grid::shoot (Position p)
     Cell* targetCell = getCell(p);
     if (targetCell->getStatus() != UNKNOWN)
         return new ShotResult (ShotResult(getTargetGrid(), ALREADY_PLAYED, false));
-    
+
     Ship* targetShip = getShipAtPosition(p);
     if (!targetShip)
     {
         targetCell->setStatus(WATER);
         return new ShotResult (ShotResult(getTargetGrid(), MISSED, false));
     }
-    
+
     targetCell->setStatus(TOUCH);
     if (targetShip->isSunk())
         return new ShotResult (ShotResult(getTargetGrid(), SUNK, allShipsSunk()));

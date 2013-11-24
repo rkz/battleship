@@ -48,7 +48,11 @@ public:
 	// Renvoie un pointeur vers le bateau présent à une position donnée, ou un pointeur
 	// nul si aucun bateau ne s'y trouve (cellule vide ou position hors grille)
 	Ship* getShipAtPosition (Position);
-    
+
+	// Renvoie true si un bateau est présent sur une des 4 positions adjacentes à la position donnée,
+	// false sinon
+	bool getShipNearPosition (Position);
+
     // Renvoie true si tous les bateaux sont coulés (partie perdue)
     bool allShipsSunk ();
 
@@ -57,7 +61,7 @@ public:
 	// - les bateaux sont supprimés sauf ceux qui sont coulés, i.e. dont toutes les Cells sont
 	//   en statut TOUCH
 	Grid getTargetGrid ();
-    
+
     // A partir d'une position de tir, met à jour la Cell cible et calcule le ShoResult associé
     ShotResult* shoot (Position p);
 
@@ -98,6 +102,15 @@ class ShipCollisionException : public std::exception
 {
 public:
 	ShipCollisionException () {}
+};
+
+/*
+ * ShipNearbyException : lancée lorsqu'un bateau en cours de création possède une cellule adjacente à un bateau déjà existant
+ */
+class ShipNearbyException : public std::exception
+{
+public:
+	ShipNearbyException () {}
 };
 
 #endif

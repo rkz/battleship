@@ -114,7 +114,11 @@ bool LocalPlayer::placeShip(string name, int length)
         system("pause");
         return false;
     }
-
+    catch (ShipNearbyException& e) {
+        cout << "There's already another ship too close to this position, please retry" << endl;
+        system("pause");
+        return false;
+    }
 }
 
 Grid* LocalPlayer::getTargetGrid()
