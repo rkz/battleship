@@ -19,12 +19,10 @@ void Game::run ()
     {
         if (!(turnNb % 2))
         {
-            cout << "Player1, your turn to shoot!" << endl;
             gameover = turn(player1, player2);
         }
         else
         {
-            cout << "Player2, your turn to shoot!" << endl;
             gameover = turn(player2, player1);
         }
         turnNb++;

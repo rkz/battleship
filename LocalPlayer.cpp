@@ -130,7 +130,9 @@ Grid* LocalPlayer::getTargetGrid()
 Position LocalPlayer::play(Grid* targetGrid)
 {
     system("cls");
-    string targetString;
+
+    cout << name << ", your turn to play!" << endl;
+    	cout << "--------------------------------------------------" << endl << endl;
 
     cout << "Target grid:" << endl;
     cout << (*targetGrid) << endl;
@@ -138,6 +140,7 @@ Position LocalPlayer::play(Grid* targetGrid)
     while (true) {
     	cout << "Which position do you want to shoot?" << endl;
 		cout << "(e.g. 'A1' for top left position)";
+		string targetString;
 		cin >> targetString;
 		try {
 			Position pos(targetString);

@@ -10,9 +10,17 @@ using namespace std;
 
 int main ()
 {
+	string name1, name2;
+    cout << "Please type players' names." << endl << endl;
+    cout << "Player 1: ";
+    cin >> name1;
+    cout << "Player 2: ";
+    cin >> name2;
+    cout << endl;
+    system("pause");
     
-    LocalPlayer* player1 = new LocalPlayer("Player 1");
-    LocalPlayer* player2 = new LocalPlayer("Player 2");
+    LocalPlayer* player1 = new LocalPlayer(name1);
+    LocalPlayer* player2 = new LocalPlayer(name2);
 
     Game game = Game(player1, player2);
     game.run();
