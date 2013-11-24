@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Grid.h"
 #include "LocalPlayer.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ int main ()
     cin >> name2;
     cout << endl;
     system("pause");
-    
+
     LocalPlayer* player1 = new LocalPlayer(name1);
     LocalPlayer* player2 = new LocalPlayer(name2);
 
