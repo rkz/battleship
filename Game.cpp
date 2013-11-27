@@ -13,7 +13,7 @@ void Game::run ()
     init();
 
     int turnNb = 0;
-    bool gameover = true;
+    bool gameover = false;
 
     while (!gameover)
     {
