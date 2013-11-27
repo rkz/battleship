@@ -23,8 +23,6 @@ public:
     void run ();
     void init ();
     bool turn (AbstractPlayer* toplay, AbstractPlayer* target);
-    void signature(std::string name) const;
-    void finalView(Grid grid1, Grid grid2) const;
 
 };
 

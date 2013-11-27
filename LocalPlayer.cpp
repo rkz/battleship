@@ -178,3 +178,40 @@ Grid* LocalPlayer::getGrid() const
 {
     return grid;
 }
+
+void LocalPlayer::signature() const
+{   system("cls");
+	cout << name <<
+" just won the game "<<endl<<
+"     \ "<<endl<<
+"      \ "<<endl<<
+"                                   .::!!!!!!!!:."<<endl<<
+"  .!!!!!:.                        .:!!!!!!!!!!!!"<<endl<<
+"  ~~~~!!!!!!.                 .:!!!!!!!!!UWWW$$$"<<endl<<
+"      :$$NWX!!:           .:!!!!!!WUWW$$$$$$$$$P"<<endl<<
+"      $$$$$##WX!:      .<!!!!UW$$$$'  $$$$$$$$#"<<endl<<
+"      $$$$$  $$$UX   :!!Uw$$$$$$$$$   4$$$$$*"<<endl<<
+"      ^$$$B  $$$$\      $$$$$$$$$$$$   d$$R"<<endl<<
+"        '*$bd$$$$      '*$$$$$$$$$$$¤+#' "<<endl<<
+"              """"          """"""\" "<<endl;
+
+system("pause");
+
+}
+
+void LocalPlayer::finalView(std::string ennemyName, Grid* ennemyGrid) const
+{
+    system("cls");
+    cout << "Please check out the ennemy's fleet position" << endl <<
+            "--------------------------------------" << endl << endl;
+    cout << name << " < " << (*grid).destructionPercentage() << " % of fleet destroyed >" << endl <<
+            "-------------------" << endl;
+    cout << *grid << endl << endl;
+    cout << ennemyName << " < " << (*ennemyGrid).destructionPercentage() << " % of fleet destroyed >" << endl <<
+            "-------------------" << endl;
+    cout << *ennemyGrid << endl << endl;
+
+
+    system("pause");
+}
+

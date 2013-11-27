@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <cstdlib>
 
 using namespace std;
 
@@ -14,7 +13,7 @@ void Game::run ()
     init();
 
     int turnNb = 0;
-    bool gameover = false;
+    bool gameover = true;
 
     while (!gameover)
     {
@@ -30,11 +29,11 @@ void Game::run ()
     }
 
     if (turnNb % 2)
-        signature(player1->getName());
+        player1->signature();
     else
-        signature(player2->getName());
+        player2->signature();
 
-    finalView(*player1->getGrid(), *player2->getGrid());
+    player1->finalView(player2->getName(), player2->getGrid());
 
 }
 
@@ -61,41 +60,8 @@ bool Game::turn (AbstractPlayer* toplay, AbstractPlayer* target)
 
     return gameover;
 }
-void Game::signature(std::string name) const
-{   system("cls");
-	cout << name <<
-" just won the game "<<endl<<
-"     \ "<<endl<<
-"      \ "<<endl<<
-"                                   .::!!!!!!!!:."<<endl<<
-"  .!!!!!:.                        .:!!!!!!!!!!!!"<<endl<<
-"  ~~~~!!!!!!.                 .:!!!!!!!!!UWWW$$$"<<endl<<
-"      :$$NWX!!:           .:!!!!!!WUWW$$$$$$$$$P"<<endl<<
-"      $$$$$##WX!:      .<!!!!UW$$$$'  $$$$$$$$#"<<endl<<
-"      $$$$$  $$$UX   :!!Uw$$$$$$$$$   4$$$$$*"<<endl<<
-"      ^$$$B  $$$$\      $$$$$$$$$$$$   d$$R"<<endl<<
-"        '*$bd$$$$      '*$$$$$$$$$$$¤+#' "<<endl<<
-"              """"          """"""\" "<<endl;
-
-system("pause");
-
-}
-
-void Game::finalView(Grid grid1, Grid grid2) const
-{
-    system("cls");
-    cout << "Please check out the ennemy's fleet position" << endl <<
-            "--------------------------------------" << endl << endl;
-    cout << player1->getName() << " < " << (*player1->getGrid()).destructionPercentage() << " % of fleet destroyed >" << endl <<
-            "-------------------" << endl;
-    cout << *player1->getGrid() << endl << endl;
-    cout << player2->getName() << " < " << (*player2->getGrid()).destructionPercentage() << " % of fleet destroyed >" << endl <<
-            "-------------------" << endl;
-    cout << *player2->getGrid() << endl << endl;
 
 
-    system("pause");
-}
 
 
 

@@ -23,6 +23,8 @@ public:
 	virtual Position play(Grid* targetGrid) = 0;
 	virtual ShotResult shoot(Position p) = 0;
 	virtual void showResult(ShotResult sr) = 0;
+	virtual void signature() const = 0;
+	virtual void finalView(std::string ennemyName, Grid* ennemyGrid) const = 0;
 	virtual std::string getName() const = 0;
 
 	// pour l'affichage final des deux grilles, révelant au perdant la position effective des bateaux du vainqueur :

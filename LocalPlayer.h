@@ -22,6 +22,8 @@ public:
 	void showResult(ShotResult sr);
     std::string getName() const;
     Grid* getGrid() const;
+    void signature() const;
+    void finalView(std::string ennemyName, Grid* ennemyGrid) const;
 
 private:
 	void printInitFleetTitle();
