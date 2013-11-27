@@ -168,3 +168,13 @@ void LocalPlayer::showResult(ShotResult sr)
     cout << *sr.getTargetGrid() << endl;
     system("pause");
 }
+
+std::string LocalPlayer::getName() const
+{
+    return name;
+}
+
+Grid* LocalPlayer::getGrid() const
+{
+    return grid;
+}

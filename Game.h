@@ -17,12 +17,15 @@ class Game
 private:
     AbstractPlayer* player1;
     AbstractPlayer* player2;
-    
+
 public:
 	Game (AbstractPlayer* player1, AbstractPlayer* player2);
     void run ();
     void init ();
     bool turn (AbstractPlayer* toplay, AbstractPlayer* target);
+    void signature(std::string name) const;
+    void finalView(Grid grid1, Grid grid2) const;
+
 };
 
 #endif /* GAME_H_ */

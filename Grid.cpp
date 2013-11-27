@@ -2,6 +2,7 @@
 #include "ShotResult.h"
 
 #include <cassert>
+#include <cmath>
 
 Grid::Grid (int _size)
 	: size(_size)
@@ -206,4 +207,19 @@ ShotResult* Grid::shoot (Position p)
         return new ShotResult (ShotResult(getTargetGrid(), SUNK, allShipsSunk()));
     else
         return new ShotResult (ShotResult(getTargetGrid(), TOUCHED, false));
+}
+
+int Grid::destructionPercentage()
+{
+    int nbTouchedCells = 0;
+    int nbCells = 0;
+    for (int i = 0; i < ships.size(); i++) {
+        std::vector<Cell*> cells = ships[i].getCells();
+        for (int j = 0; j < cells.size(); j++){
+            nbCells++;
+            if (cells[j]->getStatus() == TOUCH)
+                nbTouchedCells ++;
+        }
+    }
+    return ceil(nbTouchedCells * 100 / nbCells);
 }

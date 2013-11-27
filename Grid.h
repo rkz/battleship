@@ -65,11 +65,13 @@ public:
     // A partir d'une position de tir, met à jour la Cell cible et calcule le ShoResult associé
     ShotResult* shoot (Position p);
 
+    // Calcule le pourcentage de cases de bateaux touchées
+    int destructionPercentage();
+
 };
 
 // Affichage d'une grille sur un flux de sortie pour l'adversaire
 std::ostream & operator<< (std::ostream & ofs, Grid& g);
-
 
 /*
  * OutOfGridException : lancée lorsqu'une cellule est en dehors de la grille

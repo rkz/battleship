@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -11,10 +12,10 @@ Game::Game(AbstractPlayer* _player1, AbstractPlayer* _player2)
 void Game::run ()
 {
     init();
-    
+
     int turnNb = 0;
     bool gameover = false;
-    
+
     while (!gameover)
     {
         if (!(turnNb % 2))
@@ -27,11 +28,14 @@ void Game::run ()
         }
         turnNb++;
     }
-    
+
     if (turnNb % 2)
-        cout << "Player1 wins the game!" << endl;
+        signature(player1->getName());
     else
-        cout << "Player2 wins the game!" << endl;
+        signature(player2->getName());
+
+    finalView(*player1->getGrid(), *player2->getGrid());
+
 }
 
 void Game::init ()
@@ -45,7 +49,7 @@ bool Game::turn (AbstractPlayer* toplay, AbstractPlayer* target)
     Grid* targetGrid = target->getTargetGrid();
     bool validShot = false;
     bool gameover = false;
-    
+
     while (!validShot)
     {
         Position p = toplay->play(targetGrid);
@@ -54,6 +58,44 @@ bool Game::turn (AbstractPlayer* toplay, AbstractPlayer* target)
         gameover = sr.isWinning();
         toplay->showResult(sr);
     }
-    
+
     return gameover;
 }
+void Game::signature(std::string name) const
+{   system("cls");
+	cout << name <<
+" just won the game "<<endl<<
+"     \ "<<endl<<
+"      \ "<<endl<<
+"                                   .::!!!!!!!!:."<<endl<<
+"  .!!!!!:.                        .:!!!!!!!!!!!!"<<endl<<
+"  ~~~~!!!!!!.                 .:!!!!!!!!!UWWW$$$"<<endl<<
+"      :$$NWX!!:           .:!!!!!!WUWW$$$$$$$$$P"<<endl<<
+"      $$$$$##WX!:      .<!!!!UW$$$$'  $$$$$$$$#"<<endl<<
+"      $$$$$  $$$UX   :!!Uw$$$$$$$$$   4$$$$$*"<<endl<<
+"      ^$$$B  $$$$\      $$$$$$$$$$$$   d$$R"<<endl<<
+"        '*$bd$$$$      '*$$$$$$$$$$$¤+#' "<<endl<<
+"              """"          """"""\" "<<endl;
+
+system("pause");
+
+}
+
+void Game::finalView(Grid grid1, Grid grid2) const
+{
+    system("cls");
+    cout << "Please check out the ennemy's fleet position" << endl <<
+            "--------------------------------------" << endl << endl;
+    cout << player1->getName() << " < " << (*player1->getGrid()).destructionPercentage() << " % of fleet destroyed >" << endl <<
+            "-------------------" << endl;
+    cout << *player1->getGrid() << endl << endl;
+    cout << player2->getName() << " < " << (*player2->getGrid()).destructionPercentage() << " % of fleet destroyed >" << endl <<
+            "-------------------" << endl;
+    cout << *player2->getGrid() << endl << endl;
+
+
+    system("pause");
+}
+
+
+

@@ -20,12 +20,14 @@ public:
 	Position play(Grid* targetGrid);
 	ShotResult shoot(Position p);
 	void showResult(ShotResult sr);
+    std::string getName() const;
+    Grid* getGrid() const;
 
 private:
 	void printInitFleetTitle();
     bool placeShip(std::string name, int length);
-
     std::string name;
+
 };
 
 #endif /* LOCALPLAYER_H_ */
