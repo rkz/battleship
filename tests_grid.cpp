@@ -74,6 +74,9 @@ BOOST_AUTO_TEST_CASE( grid_stringFromGrid_and_gridFromString )
     
     std::string serial = g.stringFromGrid();
 	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3s" );
+    
+    Grid g1 = gridFromString ("3/TTUUUUUWU/A1H3s");
+    BOOST_CHECK( g == g1 );
 }
 
 #endif

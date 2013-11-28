@@ -12,6 +12,12 @@ Cell::Cell(Position _position, CellStatus _status)
 {
 }
 
+bool Cell::isEqual(Cell cell_to_compare) const
+{
+    return position == cell_to_compare.position
+        && status == cell_to_compare.status;
+}
+
 Position Cell::getPosition () const
 {
 	return position;
@@ -35,4 +41,9 @@ std::string Cell::getStatusAsString () const
 void Cell::setStatus (CellStatus _status)
 {
 	status = _status;
+}
+
+bool operator== (Cell const& c1, Cell const& c2)
+{
+    return c1.isEqual(c2);
 }

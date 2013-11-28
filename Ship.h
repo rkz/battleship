@@ -19,6 +19,8 @@ private:
 
 public:
     Ship(std::vector<Cell*> cells, std::string name);
+    
+    bool isEqual (Ship ship_to_compare) const;
 
     bool isSunk() const;
     bool isTouched() const;
@@ -26,5 +28,7 @@ public:
     std::vector<Cell*> getCells() const;
     std::string getName() const;
 };
+
+bool operator== (Ship const& s1, Ship const& s2);
 
 #endif // SHIP_H_INCLUDED

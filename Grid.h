@@ -34,6 +34,9 @@ public:
 
 	// Renvoie la taille de la grille
 	int getSize () const;
+    
+    //Renvoie true si la grille en argument est la même que celle à qui appartient la méthode
+    bool isEqual (Grid grid_to_compare) const;
 
 	// Renvoie true si 'position' est sur la grille, false sinon
 	bool isPositionValid (Position position);
@@ -78,6 +81,8 @@ Grid gridFromString (std::string serial);
 
 // Affichage d'une grille sur un flux de sortie pour l'adversaire
 std::ostream & operator<< (std::ostream & ofs, Grid& g);
+
+bool operator== (Grid const& g1, Grid const& g2);
 
 /*
  * OutOfGridException : lancée lorsqu'une cellule est en dehors de la grille

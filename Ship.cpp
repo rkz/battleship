@@ -13,6 +13,12 @@ Ship::Ship(vector<Cell*> _cells, string _name)
 		assert(cells[i] != 0);
 }
 
+bool Ship::isEqual(Ship ship_to_compare) const
+{
+    return cells == ship_to_compare.cells
+        && name == ship_to_compare.name;
+}
+
 bool Ship::isSunk() const
 {
     for (unsigned int i = 0; i < cells.size(); i++) {
@@ -41,4 +47,9 @@ std::vector<Cell*> Ship::getCells() const
 std::string Ship::getName() const
 {
     return name;
+}
+
+bool operator== (Ship const& s1, Ship const& s2)
+{
+    return s1.isEqual(s2);
 }

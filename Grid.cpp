@@ -73,6 +73,13 @@ int Grid::getSize () const
 	return size;
 }
 
+bool Grid::isEqual (Grid grid_to_compare) const
+{
+    return size == grid_to_compare.size
+        && grid == grid_to_compare.grid
+        && ships == grid_to_compare.ships;
+}
+
 Cell* Grid::getCell (Position position)
 {
 	if (isPositionValid(position))
@@ -272,6 +279,11 @@ std::ostream & operator<<(std::ostream & ofs, Grid& g)
 		ofs << std::endl;
 	}
     return ofs;
+}
+
+bool operator== (Grid const& g1, Grid const& g2)
+{
+    return g1.isEqual(g2);
 }
 
 Ship* Grid::getShipAtPosition (Position position)

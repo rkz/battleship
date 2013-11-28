@@ -25,6 +25,8 @@ private:
 
 public:
 	Cell(Position position, CellStatus status = UNKNOWN);
+    
+    bool isEqual (Cell cell_to_compare) const;
 
 	Position getPosition () const;
 
@@ -33,5 +35,7 @@ public:
 	void setStatus (CellStatus);
 
 };
+
+bool operator== (Cell const& c1, Cell const& c2);
 
 #endif /* CELL_H_ */
