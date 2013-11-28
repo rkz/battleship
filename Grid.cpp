@@ -22,6 +22,48 @@ Grid::Grid (Grid const& grid_to_copy)
 {
 }
 
+std::string Grid::stringFromGrid () const
+{
+    std::string serial = std::to_string(size) + '/';
+    
+    for (int i=0; i < size; i++)
+    {
+        for (int j=0; j < size; j++)
+        {
+            switch (grid[i][j].getStatus()) {
+                case UNKNOWN:
+                    serial += 'U';
+                    break;
+                case WATER:
+                    serial += 'W';
+                    break;
+                case TOUCH:
+                    serial += 'T';
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    serial += '/';
+    
+    for (int k=0; k < ships.size(); k++)
+    {
+        std::vector<Cell*> cells = ships[k].getCells();
+        Position firstCellPos = cells[k]->getPosition();
+        serial += firstCellPos.toString();
+        
+        if (cells[1]->getPosition().getX() == firstCellPos.getX())
+            serial += 'V';
+        else
+            serial += 'H';
+        serial += std::to_string(cells.size()) + ',';
+    }
+    
+    return serial;
+}
+
 int Grid::getSize () const
 {
 	return size;
@@ -42,7 +84,7 @@ bool Grid::isPositionValid (Position position)
 	return (x >= 0) && (x < size) && (y >= 0) && (y < size);
 }
 
-Ship* Grid::addShip (Position position, Direction direction, int length, std::string name)
+Ship* Grid::addShip (Position position, Direction direction, int length, std::string name = "")
 {
 	int x = position.getX();
 	int y = position.getY();
@@ -99,6 +141,77 @@ Grid Grid::getTargetGrid ()
 			i++;
 	}
 	return target;
+}
+
+Grid gridFromString (std::string serial)
+{
+    int deserialSize = std::stoi(serial);
+    Grid deserialGrid = Grid(deserialSize);
+    int currentChar;
+    
+    if (deserialSize < 10)
+        currentChar = 2;
+    else
+        currentChar = 3;
+    assert(serial[currentChar-1] != '/');
+    
+    for (int i=0; i < deserialSize; i++)
+    {
+        for (int j=0; j < deserialSize; j++)
+        {
+            Cell* cell = deserialGrid.getCell(Position(i,j));
+            switch (serial[currentChar]) {
+                case 'U':
+                    cell -> setStatus(UNKNOWN);
+                    break;
+                case 'W':
+                    cell -> setStatus(WATER);
+                    break;
+                case 'T':
+                    cell -> setStatus(TOUCH);
+                    break;
+                default:
+                    break;
+            }
+            
+            currentChar++;
+        }
+    }
+    
+    assert(serial[currentChar] != '/');
+    std::string serialShips = serial.substr(currentChar-1);
+    
+    while (serialShips.size() > 6)
+    {
+        Direction direction = HORIZONTAL;
+        if (serialShips[4] == 'V')
+            direction = HORIZONTAL;
+        std::string name;
+        switch (serialShips[6]) {
+            case 'A':
+                name = "aircraft carrier";
+                break;
+            case 'B':
+                name = "battleship";
+                break;
+            case 'S':
+                name = "submarine";
+                break;
+            case 'D':
+                name = "destroyer";
+                break;
+            case 'P':
+                name = "patrol boat";
+                break;
+            default:
+                break;
+        }
+        
+        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, serialShips[5], name);
+        serialShips = serialShips.substr(6);
+    }
+    
+    return deserialGrid;
 }
 
 std::ostream & operator<<(std::ostream & ofs, Grid& g)

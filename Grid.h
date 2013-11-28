@@ -28,6 +28,9 @@ public:
 
     // Copie d'une grille
 	Grid (Grid const& grid_to_copy);
+    
+    //Sérialisation d'une grille
+    std::string stringFromGrid () const;
 
 	// Renvoie la taille de la grille
 	int getSize () const;
@@ -69,6 +72,9 @@ public:
     int destructionPercentage();
 
 };
+
+//Désérialisation d'une grille
+Grid gridFromString (std::string serial);
 
 // Affichage d'une grille sur un flux de sortie pour l'adversaire
 std::ostream & operator<< (std::ostream & ofs, Grid& g);

@@ -62,4 +62,18 @@ BOOST_AUTO_TEST_CASE( grid_get_targetgrid )
 	BOOST_CHECK( g1.getShipAtPosition(Position(4, 3)) == 0 );
 }
 
+BOOST_AUTO_TEST_CASE( grid_stringFromGrid_and_gridFromString )
+{
+	Grid g(3);
+    
+    g.addShip(Position(0, 0), HORIZONTAL, 3, "submarine");
+    
+    g.getCell(Position(0, 0))->setStatus(TOUCH);
+    g.getCell(Position(1, 0))->setStatus(TOUCH);
+    g.getCell(Position(1, 2))->setStatus(WATER);
+    
+    std::string serial = g.stringFromGrid();
+	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3S" );
+}
+
 #endif
