@@ -58,6 +58,8 @@ std::string Grid::stringFromGrid () const
             serial += 'V';
         else
             serial += 'H';
+        
+        serial += (ships[k].getName())[0];
         serial += std::to_string(cells.size()) + ',';
     }
     
@@ -188,19 +190,19 @@ Grid gridFromString (std::string serial)
             direction = HORIZONTAL;
         std::string name;
         switch (serialShips[6]) {
-            case 'A':
+            case 'a':
                 name = "aircraft carrier";
                 break;
-            case 'B':
+            case 'b':
                 name = "battleship";
                 break;
-            case 'S':
+            case 's':
                 name = "submarine";
                 break;
-            case 'D':
+            case 'd':
                 name = "destroyer";
                 break;
-            case 'P':
+            case 'p':
                 name = "patrol boat";
                 break;
             default:

@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE( grid_stringFromGrid_and_gridFromString )
     g.getCell(Position(1, 2))->setStatus(WATER);
     
     std::string serial = g.stringFromGrid();
-	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3S" );
+	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3s" );
 }
 
 #endif
