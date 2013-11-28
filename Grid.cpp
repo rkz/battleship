@@ -30,7 +30,7 @@ std::string Grid::stringFromGrid () const
     {
         for (int j=0; j < size; j++)
         {
-            switch (grid[i][j].getStatus()) {
+            switch (grid[j][i].getStatus()) {
                 case UNKNOWN:
                     serial += 'U';
                     break;
@@ -59,8 +59,10 @@ std::string Grid::stringFromGrid () const
         else
             serial += 'H';
         
+        serial += std::to_string(cells.size());
         serial += (ships[k].getName())[0];
-        serial += std::to_string(cells.size()) + ',';
+        if (k < ships.size() - 1)
+            serial += ',';
     }
     
     return serial;
@@ -161,7 +163,7 @@ Grid gridFromString (std::string serial)
     {
         for (int j=0; j < deserialSize; j++)
         {
-            Cell* cell = deserialGrid.getCell(Position(i,j));
+            Cell* cell = deserialGrid.getCell(Position(j,i));
             switch (serial[currentChar]) {
                 case 'U':
                     cell -> setStatus(UNKNOWN);
