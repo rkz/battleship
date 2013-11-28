@@ -2,7 +2,10 @@
 
 #include <iostream>
 #include <vector>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
 #include "Game.h"
+#include "RemoteGame.h"
 #include "Grid.h"
 #include "LocalPlayer.h"
 #include <cstdlib>
@@ -60,7 +63,26 @@ int main (int argc, char** argv)
 
 		if (mode == NETWORK_CLIENT)
 		{
-			cout << "Network client mode is not implemented yet!" << endl;
+			if (argc < 3) {
+				cout << "Please provide the server's hostname or IP address as third argument." << endl;
+				exit(1);
+			}
+			string hostname(argv[2]);
+
+			string name;
+			cout << "Please type your name: ";
+			cin >> name;
+			cout << endl;
+
+			boost::asio::io_service io;
+
+			LocalPlayer* player = new LocalPlayer(name);
+			RemoteGame game(io, hostname, 1005, player);
+
+			game.run();
+
+			delete player;
+
 			return 0;
 		}
 

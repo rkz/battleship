@@ -13,17 +13,23 @@
 
 #include "LocalPlayer.h"
 
+using boost::asio::ip::tcp;
+
 class RemoteGame
 {
 public:
-	RemoteGame(std::string host, LocalPlayer* player);
+	RemoteGame(boost::asio::io_service& io, std::string host, int port, LocalPlayer* player);
 	~RemoteGame();
 
 	// Connects to the server and starts the game
 	void run();
 
 private:
-	boost::asio::ip::tcp::socket* socket;
+	boost::asio::io_service& io;
+
+	std::string host;
+	int port;
+
 	LocalPlayer* player;
 };
 
