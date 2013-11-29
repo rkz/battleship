@@ -194,7 +194,6 @@ Grid gridFromString (std::string serial)
     
     while (serialShips.size() > 6)
     {
-        std::cout << serialShips << std::endl;
         Direction direction = HORIZONTAL;
         if (serialShips[4] == 'V')
             direction = VERTICAL;
