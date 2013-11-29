@@ -164,7 +164,7 @@ Grid gridFromString (std::string serial)
         currentChar = 2;
     else
         currentChar = 3;
-    assert(serial[currentChar-1] != '/');
+    assert(serial[currentChar-1] == '/');
     
     for (int i=0; i < deserialSize; i++)
     {
@@ -189,14 +189,15 @@ Grid gridFromString (std::string serial)
         }
     }
     
-    assert(serial[currentChar] != '/');
+    assert(serial[currentChar] == '/');
     std::string serialShips = serial.substr(currentChar-1);
     
     while (serialShips.size() > 6)
     {
+        std::cout << serialShips << std::endl;
         Direction direction = HORIZONTAL;
         if (serialShips[4] == 'V')
-            direction = HORIZONTAL;
+            direction = VERTICAL;
         std::string name;
         switch (serialShips[6]) {
             case 'a':
@@ -218,7 +219,7 @@ Grid gridFromString (std::string serial)
                 break;
         }
         
-        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, serialShips[5], name);
+        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, std::stoi (serialShips.substr(5)), name);
         serialShips = serialShips.substr(6);
     }
     

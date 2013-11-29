@@ -15,8 +15,12 @@ Ship::Ship(vector<Cell*> _cells, string _name)
 
 bool Ship::isEqual(Ship ship_to_compare) const
 {
-    return cells == ship_to_compare.cells
-        && name == ship_to_compare.name;
+    bool sameCells = true;
+    for (int i=0; i < cells.size(); i++)
+    {
+        sameCells &= (*cells[i] == *ship_to_compare.cells[i]);
+    }
+        return sameCells && name == ship_to_compare.name;
 }
 
 bool Ship::isSunk() const
