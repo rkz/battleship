@@ -1,5 +1,6 @@
 #include "Grid.h"
 #include "ShotResult.h"
+#include<sstream>
 
 #include <cassert>
 #include <cmath>
@@ -22,10 +23,18 @@ Grid::Grid (Grid const& grid_to_copy)
 {
 }
 
+//convertir un entier en string
+std::string convert(int a)
+{
+    std::ostringstream oss;
+    oss << a;
+    return oss.str();
+}
+
 std::string Grid::stringFromGrid () const
 {
-    std::string serial = std::to_string(size) + '/';
-    
+    std::string serial = convert(size) + '/';
+
     for (int i=0; i < size; i++)
     {
         for (int j=0; j < size; j++)
@@ -45,26 +54,26 @@ std::string Grid::stringFromGrid () const
             }
         }
     }
-    
+
     serial += '/';
-    
+
     for (int k=0; k < ships.size(); k++)
     {
         std::vector<Cell*> cells = ships[k].getCells();
         Position firstCellPos = cells[k]->getPosition();
         serial += firstCellPos.toString();
-        
+
         if (cells[1]->getPosition().getX() == firstCellPos.getX())
             serial += 'V';
         else
             serial += 'H';
-        
-        serial += std::to_string(cells.size());
+
+        serial += convert(cells.size());
         serial += (ships[k].getName())[0];
         if (k < ships.size() - 1)
             serial += ',';
     }
-    
+
     return serial;
 }
 
@@ -153,19 +162,28 @@ Grid Grid::getTargetGrid ()
 	}
 	return target;
 }
+// convertit une string en entier
+int convertBack(std::string toConvert)
+{
+    int res;
+    std::istringstream convert(toConvert);
+    if( ! (convert >> res))
+        res = 0;
+    return res;
+}
 
 Grid gridFromString (std::string serial)
 {
-    int deserialSize = std::stoi(serial);
+    int deserialSize = convertBack(serial);
     Grid deserialGrid = Grid(deserialSize);
     int currentChar;
-    
+
     if (deserialSize < 10)
         currentChar = 2;
     else
         currentChar = 3;
     assert(serial[currentChar-1] == '/');
-    
+
     for (int i=0; i < deserialSize; i++)
     {
         for (int j=0; j < deserialSize; j++)
@@ -184,14 +202,14 @@ Grid gridFromString (std::string serial)
                 default:
                     break;
             }
-            
+
             currentChar++;
         }
     }
-    
+
     assert(serial[currentChar] == '/');
     std::string serialShips = serial.substr(currentChar-1);
-    
+
     while (serialShips.size() > 6)
     {
         Direction direction = HORIZONTAL;
@@ -217,15 +235,15 @@ Grid gridFromString (std::string serial)
             default:
                 break;
         }
-        
-        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, std::stoi (serialShips.substr(5)), name);
+
+        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, convertBack(serialShips.substr(5)), name);
         serialShips = serialShips.substr(6);
     }
-    
+
     return deserialGrid;
 }
 
-std::ostream & operator<<(std::ostream & ofs, Grid& g)
+std::ostream & operator<<(std::ostream & ofs, Grid &g)
 {
 	int g_size = g.getSize();
 	ofs << "   ";

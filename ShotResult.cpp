@@ -34,25 +34,25 @@ Grid* ShotResult::getTargetGrid() const
 
 std::string ShotResult::stringFromShotResult() const
 {
-    std::string serializedString;
-    serializedString += targetGrid.stringFromGrid();
-    serializedString += ","
+    std::string serializedString = targetGrid.stringFromGrid();
+    serializedString += "$";
     switch (result) {
         case MISSED:
-            serializedString += "m"
+            serializedString += "m";
             break;
         case TOUCHED:
-            serializedString += "t"
+            serializedString += "t";
             break;
         case SUNK:
-            serializedString += "s"
+            serializedString += "s";
             break;
         case ALREADY_PLAYED:
-            serializedString += "a"
+            serializedString += "a";
         default:
             break;
     }
-    serializedString += ","
+    serializedString += "$";
+
     if (winningShot) serializedString += "t";
     else serializedString += "f";
 
@@ -61,45 +61,53 @@ std::string ShotResult::stringFromShotResult() const
 
 ShotResult shotResultFromString(std::string stringToUnserialize)
 {
-    std::vector<std::string> strings;
+    std::string str[3];
     int i = 0;
 
+    // récupération des trois strings : la première codant la grille, la seconde le result et la troisième le winningShot
     for (int j = 0; j < 3; j++){
-        while (stringToUnserialize[i] != "$"){
-            strings.push_back(stringToUnserialize[i]);
+        while ( i < stringToUnserialize.size() && stringToUnserialize[i] != '$'){
+            str[j].push_back(stringToUnserialize[i]);
             i++;
             }
         i++;
         }
 
-    Grid itsGrid = gridFromString(strings[0]);
+    Grid itsGrid = gridFromString(str[0]);
+
     Result itsResult = MISSED; // arbitraire
     bool itsWinningShot = false; // arbitraire
 
-    switch(strings[1]){
-        case "m" :
+    if (str[1] == "m")
             itsResult = MISSED;
-            break;
-        case "t" :
+    else if (str[1] == "t")
             itsResult = TOUCHED;
-            break;
-        case "s" :
+    else if (str[1] == "s")
             itsResult = SUNK;
-            break;
-        case "a" :
+    else if (str[1] == "a")
             itsResult = ALREADY_PLAYED;
-            break;
-        default :
-            break;
-    }
-    switch(strings[2]){
-        case "t" :
-            itsWinningShot = true;
-            break;
-        case "f" :
-            itsWinningShot = false;
-            break;
-    }
 
-    return ShotResult unserializedShot (itsGrid, itsResult, itsWinningShot);
+    if (str[2] == "t")
+            itsWinningShot = true;
+    else if (str[2] == "f")
+            itsWinningShot = false;
+
+    ShotResult unserializedShot (itsGrid, itsResult, itsWinningShot);
+
+    return unserializedShot;
 }
+
+bool ShotResult::isEqual(ShotResult toCompare) const {
+
+return targetGrid.isEqual(toCompare.targetGrid)
+    && result == toCompare.result
+    && winningShot == toCompare.winningShot;
+
+}
+
+bool operator== (ShotResult const& shot1, ShotResult const& shot2){
+
+    return shot1.isEqual(shot2);
+}
+
+

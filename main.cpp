@@ -1,3 +1,4 @@
+
 #ifndef BATTLESHIP_BUILD_TESTS
 
 #include <iostream>

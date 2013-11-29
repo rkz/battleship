@@ -34,6 +34,15 @@ public:
     Grid* getTargetGrid () const;
     // Convertit un ShotResult en string pour qu'il puisse passer sur le réseau
     std::string stringFromShotResult () const;
+    // Fonction intermédiaire pour l'opérateur de comparaison
+    bool isEqual(ShotResult toCompare) const;
 };
+
+//convertir une string en shotResult
+ShotResult shotResultFromString(std::string);
+
+//operateur de comparaison
+bool operator== (ShotResult const& shot1, ShotResult const& shot2);
+
 
 #endif /* SHOTRESULT_H_ */
