@@ -31,3 +31,75 @@ Grid* ShotResult::getTargetGrid() const
 {
     return new Grid (targetGrid);
 }
+
+std::string ShotResult::stringFromShotResult() const
+{
+    std::string serializedString;
+    serializedString += targetGrid.stringFromGrid();
+    serializedString += ","
+    switch (result) {
+        case MISSED:
+            serializedString += "m"
+            break;
+        case TOUCHED:
+            serializedString += "t"
+            break;
+        case SUNK:
+            serializedString += "s"
+            break;
+        case ALREADY_PLAYED:
+            serializedString += "a"
+        default:
+            break;
+    }
+    serializedString += ","
+    if (winningShot) serializedString += "t";
+    else serializedString += "f";
+
+    return serializedString;
+}
+
+ShotResult shotResultFromString(std::string stringToUnserialize)
+{
+    std::vector<std::string> strings;
+    int i = 0;
+
+    for (int j = 0; j < 3; j++){
+        while (stringToUnserialize[i] != "$"){
+            strings.push_back(stringToUnserialize[i]);
+            i++;
+            }
+        i++;
+        }
+
+    Grid itsGrid = gridFromString(strings[0]);
+    Result itsResult = MISSED; // arbitraire
+    bool itsWinningShot = false; // arbitraire
+
+    switch(strings[1]){
+        case "m" :
+            itsResult = MISSED;
+            break;
+        case "t" :
+            itsResult = TOUCHED;
+            break;
+        case "s" :
+            itsResult = SUNK;
+            break;
+        case "a" :
+            itsResult = ALREADY_PLAYED;
+            break;
+        default :
+            break;
+    }
+    switch(strings[2]){
+        case "t" :
+            itsWinningShot = true;
+            break;
+        case "f" :
+            itsWinningShot = false;
+            break;
+    }
+
+    return ShotResult unserializedShot (itsGrid, itsResult, itsWinningShot);
+}

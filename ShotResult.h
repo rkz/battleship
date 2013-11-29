@@ -32,6 +32,8 @@ public:
     bool isWinning() const;
     std::string getResultAsString() const;
     Grid* getTargetGrid () const;
+    // Convertit un ShotResult en string pour qu'il puisse passer sur le réseau
+    std::string stringFromShotResult () const;
 };
 
 #endif /* SHOTRESULT_H_ */
