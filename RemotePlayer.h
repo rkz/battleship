@@ -11,11 +11,12 @@
 #include <boost/bind.hpp>
 
 #include "AbstractPlayer.h"
+#include "Asio_helper.h"
 
 class RemotePlayer : public AbstractPlayer
 {
 public:
-	RemotePlayer();
+	RemotePlayer(boost::asio::ip::tcp::socket* _socket);
 	~RemotePlayer();
 
 	void initFleet();

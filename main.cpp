@@ -7,6 +7,7 @@
 #include <boost/bind.hpp>
 #include "Game.h"
 #include "RemoteGame.h"
+#include "RemotePlayer.h"
 #include "Grid.h"
 #include "LocalPlayer.h"
 #include <cstdlib>
@@ -25,7 +26,7 @@ class UnknownMode : public exception {};
 BattleshipMode getMode (int argc, char** argv)
 {
 	if (argc < 2) throw UnknownMode();
-
+    
 	string mode(argv[1]);
 	if (mode == "local") return LOCAL;
 	else if (mode == "client") return NETWORK_CLIENT;
@@ -38,7 +39,7 @@ int main (int argc, char** argv)
 	try
 	{
 		BattleshipMode mode = getMode(argc, argv);
-
+        
 		if (mode == LOCAL)
 		{
 			string name1, name2;
@@ -49,19 +50,19 @@ int main (int argc, char** argv)
 			cin >> name2;
 			cout << endl;
 			system("pause");
-
+            
 			LocalPlayer* player1 = new LocalPlayer(name1);
 			LocalPlayer* player2 = new LocalPlayer(name2);
-
+            
 			Game game = Game(player1, player2);
 			game.run();
-
+            
 			delete player1;
 			delete player2;
-
+            
 			return 0;
 		}
-
+        
 		if (mode == NETWORK_CLIENT)
 		{
 			if (argc < 3) {
@@ -69,37 +70,60 @@ int main (int argc, char** argv)
 				exit(1);
 			}
 			string hostname(argv[2]);
-
+            
 			string name;
 			cout << "Please type your name: ";
 			cin >> name;
 			cout << endl;
-
+            
 			boost::asio::io_service io;
-
+            
 			LocalPlayer* player = new LocalPlayer(name);
 			RemoteGame game(io, hostname, 1005, player);
-
+            
 			game.run();
-
+            
 			delete player;
-
+            
 			return 0;
 		}
-
+        
 		if (mode == NETWORK_SERVER)
 		{
-			cout << "Network server mode is not implemented yet!" << endl;
-			return 0;
+			// Création du service principal et du résolveur.
+            boost::asio::io_service ios;
+            
+            // Création de l'acceptor avec le port d'écoute 1005 et une adresse quelconque de type IPv4
+            tcp::acceptor acceptor(ios, tcp::endpoint(tcp::v4(), 1005));
+            
+            // On attend la venue d'un client
+            // Création d'une socket
+            tcp::socket socket1(ios);
+            
+            // On accepte la connexion
+            acceptor.accept(socket1);
+            
+            // On crée le RemotePlayer
+            RemotePlayer player1 = RemotePlayer(&socket1);
+            
+            // Idem avec le deuxième client
+            tcp::socket socket2(ios);
+            acceptor.accept(socket2);
+            RemotePlayer player2 = RemotePlayer(&socket2);
+            
+            Game game = Game(&player1, &player2);
+            game.run();
+            
+            return 0;
 		}
 	}
 	catch (UnknownMode&)
 	{
 		cout << "Usage: battleship <mode>" << endl << endl
-		     << "Supported modes:" << endl
-		     << "    local -- Both players play on this computer." << endl
-		     << "    client -- Network mode / client." << endl
-		     << "    server -- Network mode / server." << endl;
+        << "Supported modes:" << endl
+        << "    local -- Both players play on this computer." << endl
+        << "    client -- Network mode / client." << endl
+        << "    server -- Network mode / server." << endl;
 		exit(1);
 	}
 }
