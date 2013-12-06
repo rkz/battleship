@@ -97,7 +97,6 @@ void RemoteGame::run()
                 notOver = false;
             }
         }
-        
     }
     
 	catch (std::exception& e) {
