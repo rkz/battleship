@@ -8,26 +8,21 @@
 
 #include "Asio_helper.h"
 
+void write_socket(boost::asio::ip::tcp::socket* socket, std::string s)
+{
+    boost::system::error_code err = boost::asio::error::eof;
+    boost::asio::write(*socket, boost::asio::buffer(s, s.length()), err);
+}
+
 std::string read_socket(boost::asio::ip::tcp::socket* socket)
 {
     std::string msg;
-    
-    while (true)
-    {
-        boost::array<char, 32> buf;
-        boost::system::error_code error;
+
+    boost::array<char, 512> buf;
         
-        int len = socket->read_some(boost::asio::buffer(buf), error);
-        
-        if (error == boost::asio::error::eof)
-            // connection closed by server
-            break;
-        else if (error != 0)
-            throw boost::system::system_error(error);
-        else {
-            msg += std::string(buf.data()).substr(0,len);
-        }
-    }
+    int len = socket->read_some(boost::asio::buffer(buf, 512));
+    std::cout << len << std::endl;
+    msg = std::string(buf.data()).substr(0,len);
     
     return msg;
 }

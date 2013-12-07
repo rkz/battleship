@@ -12,6 +12,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
+void write_socket(boost::asio::ip::tcp::socket* socket, std::string s);
 std::string read_socket(boost::asio::ip::tcp::socket* socket);
 
 #endif

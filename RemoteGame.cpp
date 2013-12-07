@@ -47,53 +47,58 @@ void RemoteGame::run()
             if (order == "initFleet")
             {
                 initFleet();
-                socket.write_some(boost::asio::buffer("OK"));
+                write_socket(&socket, "OK");
             }
             
             else if (order == "getTargetGrid")
-                socket.write_some(boost::asio::buffer(getTargetGrid()));
+                write_socket(&socket, getTargetGrid());
             
             else if (order == "play")
             {
+                write_socket(&socket, "OK");
                 std::string serial = read_socket(&socket);
                 Grid targetGrid = gridFromString(serial);
                 std::string p = play(&targetGrid);
-                socket.write_some(boost::asio::buffer(p));
+                write_socket(&socket, p);
             }
             
             else if (order == "shoot")
             {
+                write_socket(&socket, "OK");
                 std::string p = read_socket(&socket);
                 std::string sr = shoot(p);
-                socket.write_some(boost::asio::buffer(sr));
+                write_socket(&socket, sr);
             }
             
             else if (order == "showResult")
             {
+                write_socket(&socket, "OK");
                 std::string sr = read_socket(&socket);
                 showResult(shotResultFromString(sr));
-                socket.write_some(boost::asio::buffer("OK"));
+                write_socket(&socket, "OK");
             }
             
             else if (order == "getName")
-                socket.write_some(boost::asio::buffer(getName()));
+                write_socket(&socket, getName());
             
             else if (order == "getGrid")
-                socket.write_some(boost::asio::buffer(getGrid()));
+                write_socket(&socket, getGrid());
     
             else if (order == "signature")
             {
                 signature();
-                socket.write_some(boost::asio::buffer("OK"));
+                write_socket(&socket, "OK");
             }
             
             else if (order == "finalView")
             {
+                write_socket(&socket, "OK");
                 std::string ennemyName = read_socket(&socket);
+                write_socket(&socket, "OK");
                 std::string serial = read_socket(&socket);
                 Grid ennemyGrid = gridFromString(serial);
                 finalView(ennemyName, &ennemyGrid);
-                socket.write_some(boost::asio::buffer("OK"));
+                write_socket(&socket, "OK");
                 notOver = false;
             }
         }
@@ -106,6 +111,8 @@ void RemoteGame::run()
 
 void RemoteGame::initFleet()
 {
+    
+    std::cout << "Youpi" << std::endl;
     player->initFleet();
 }
 
