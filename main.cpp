@@ -92,6 +92,8 @@ int main (int argc, char** argv)
 		{
 			// Création du service principal et du résolveur.
             boost::asio::io_service ios;
+            std::string ip_address = boost::asio::ip::host_name();
+            std::cout << "Server running on IP: " << ip_address << std::endl;
             
             // Création de l'acceptor avec le port d'écoute 1005 et une adresse quelconque de type IPv4
             tcp::acceptor acceptor(ios, tcp::endpoint(tcp::v4(), 1005));
@@ -105,11 +107,13 @@ int main (int argc, char** argv)
             
             // On crée le RemotePlayer
             RemotePlayer player1 = RemotePlayer(&socket1);
+            std::cout << "Player 1 connected" << std::endl;
             
             // Idem avec le deuxième client
             tcp::socket socket2(ios);
             acceptor.accept(socket2);
             RemotePlayer player2 = RemotePlayer(&socket2);
+            std::cout << "Player 2 connected" << std::endl;
             
             Game game = Game(&player1, &player2);
             game.run();
