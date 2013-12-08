@@ -34,6 +34,7 @@ void Game::run ()
         player2->signature();
 
     player1->finalView(player2->getName(), player2->getGrid());
+    player2->finalView(player1->getName(), player1->getGrid());
 
 }
 
