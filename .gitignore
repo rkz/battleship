@@ -36,3 +36,8 @@ battleship.layout
 battleship.depend
 /bin
 /obj
+
+# CodeLite
+battleship.mk
+battleship.project
+battleship.txt
