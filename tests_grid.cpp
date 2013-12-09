@@ -62,21 +62,35 @@ BOOST_AUTO_TEST_CASE( grid_get_targetgrid )
 	BOOST_CHECK( g1.getShipAtPosition(Position(4, 3)) == 0 );
 }
 
-BOOST_AUTO_TEST_CASE( grid_stringFromGrid_and_gridFromString )
+BOOST_AUTO_TEST_CASE( grid_serialize )
 {
-	Grid g(3);
+	Grid g(4);
 
-    g.addShip(Position(0, 0), HORIZONTAL, 3, "submarine");
+    g.addShip(Position(0, 0), HORIZONTAL, 4, "submarine");
+    g.addShip(Position(2, 2), HORIZONTAL, 2, "destroyer");
 
     g.getCell(Position(0, 0))->setStatus(TOUCH);
     g.getCell(Position(1, 0))->setStatus(TOUCH);
     g.getCell(Position(1, 2))->setStatus(WATER);
 
     std::string serial = g.stringFromGrid();
-	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3s" );
+	BOOST_CHECK( serial == "4/TTUUUUUUUWUUUUUU/A1H4s,C3H2d" );
+}
 
+BOOST_AUTO_TEST_CASE( grid_unserialize )
+{
     Grid g1 = gridFromString ("3/TTUUUUUWU/A1H3s");
-    BOOST_CHECK( g == g1 );
+
+    BOOST_CHECK( g1.getSize() == 3 );
+
+    // tester quelques cellules
+    BOOST_CHECK( g1.getCell(Position(0, 0))->getStatus() == TOUCH );
+    BOOST_CHECK( g1.getCell(Position(1, 0))->getStatus() == TOUCH );
+    BOOST_CHECK( g1.getCell(Position(1, 2))->getStatus() == WATER );
+    BOOST_CHECK( g1.getCell(Position(2, 2))->getStatus() == UNKNOWN );
+
+    BOOST_CHECK( g1.getShipAtPosition(Position(1, 0)) != 0 );
+    BOOST_CHECK( g1.getShipAtPosition(Position(1, 1)) == 0 );
 }
 
 #endif

@@ -33,11 +33,24 @@ std::string convert(int a)
 
 std::string Grid::stringFromGrid () const
 {
+	/**
+	 * Format de sérialisation des Grid :
+	 *  <size>/<cells>/<ships>
+	 *
+	 * avec :
+	 *  <size> : taille de la grille sur 1 ou 2 chiffres
+	 *  <cells> : statuts des cellules (U, W ou T)
+	 *  <ships> : sérialisation des bateaux, séparés par des virgules
+	 *
+	 * Exemple : 3/UUUUUUUUU/A1H3a,A3H2d
+	 */
+
     std::string serial = convert(size) + '/';
 
-    for (int i=0; i < size; i++)
+    // Statuts des cellules
+    for (int i = 0; i < size; i++)
     {
-        for (int j=0; j < size; j++)
+        for (int j = 0; j < size; j++)
         {
             switch (grid[j][i].getStatus()) {
                 case UNKNOWN:
@@ -50,6 +63,7 @@ std::string Grid::stringFromGrid () const
                     serial += 'T';
                     break;
                 default:
+                	assert(false);
                     break;
             }
         }
@@ -57,19 +71,31 @@ std::string Grid::stringFromGrid () const
 
     serial += '/';
 
-    for (int k=0; k < ships.size(); k++)
+    // Bateaux
+    // Remarque : il faut que la longueur du bateau soit >= 2 et <= 9
+    for (int k = 0; k < ships.size(); k++)
     {
         std::vector<Cell*> cells = ships[k].getCells();
-        Position firstCellPos = cells[k]->getPosition();
+        assert(cells.size() >= 2);
+        assert(cells.size() <= 9);
+
+        Position firstCellPos = cells[0]->getPosition();
+
+        // Première case
         serial += firstCellPos.toString();
 
+        // Direction
         if (cells[1]->getPosition().getX() == firstCellPos.getX())
             serial += 'V';
         else
             serial += 'H';
 
+        // Taille
         serial += convert(cells.size());
+
+        // Première lettre du nom
         serial += (ships[k].getName())[0];
+
         if (k < ships.size() - 1)
             serial += ',';
     }
