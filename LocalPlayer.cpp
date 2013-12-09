@@ -13,7 +13,7 @@ using namespace std;
 
 LocalPlayer::LocalPlayer (string _name) : name(_name)
 {
-    grid = new Grid(12);
+    grid = new Grid(6);
 }
 
 LocalPlayer::~LocalPlayer()
