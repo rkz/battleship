@@ -48,6 +48,7 @@ std::string ShotResult::stringFromShotResult() const
             break;
         case ALREADY_PLAYED:
             serializedString += "a";
+            break;
         default:
             break;
     }
@@ -64,7 +65,7 @@ ShotResult shotResultFromString(std::string stringToUnserialize)
     std::string str[3];
     int i = 0;
 
-    // récupération des trois strings : la première codant la grille, la seconde le result et la troisième le winningShot
+    // rï¿½cupï¿½ration des trois strings : la premiï¿½re codant la grille, la seconde le result et la troisiï¿½me le winningShot
     for (int j = 0; j < 3; j++){
         while ( i < stringToUnserialize.size() && stringToUnserialize[i] != '$'){
             str[j].push_back(stringToUnserialize[i]);
