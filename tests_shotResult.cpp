@@ -27,11 +27,14 @@ BOOST_AUTO_TEST_CASE( stringFromShotResult )
 BOOST_AUTO_TEST_CASE( ShotResultFromString )
 {
     std::string stringToTest= "3/UTUUUUUUU/B1H2p$m$f";
-    Grid g(3);
-	g.addShip(Position (1,0), HORIZONTAL, 2, "patrol boat");
-	g.getCell(Position (1,0))->setStatus(TOUCH);
-	ShotResult shot(g, MISSED, false);
-	BOOST_CHECK (shot == shotResultFromString(stringToTest));
+
+	ShotResult shot = shotResultFromString(stringToTest);
+	Grid* g = shot.getTargetGrid();
+
+	BOOST_CHECK( shot.getResult() == MISSED );
+	BOOST_CHECK( !shot.isWinning() );
+	BOOST_CHECK( g->getSize() == 3 );
+	BOOST_CHECK( g->getCell(Position(1, 0))->getStatus() == TOUCH );
 }
 
 #endif

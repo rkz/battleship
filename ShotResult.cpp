@@ -11,6 +11,11 @@ bool ShotResult::isValid() const
     return (result != ALREADY_PLAYED);
 }
 
+Result ShotResult::getResult() const
+{
+	return result;
+}
+
 bool ShotResult::isWinning() const
 {
     return winningShot;
@@ -97,18 +102,3 @@ ShotResult shotResultFromString(std::string stringToUnserialize)
 
     return unserializedShot;
 }
-
-bool ShotResult::isEqual(ShotResult toCompare) const {
-
-return targetGrid.isEqual(toCompare.targetGrid)
-    && result == toCompare.result
-    && winningShot == toCompare.winningShot;
-
-}
-
-bool operator== (ShotResult const& shot1, ShotResult const& shot2){
-
-    return shot1.isEqual(shot2);
-}
-
-

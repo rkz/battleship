@@ -28,21 +28,24 @@ private:
 
 public:
 	ShotResult(Grid targetGrid, Result result, bool winningShot);
+
     bool isValid() const;
+
+    Result getResult() const;
+
     bool isWinning() const;
+
+    // Affichage "human-readable" du résultat
     std::string getResultAsString() const;
+
     Grid* getTargetGrid () const;
-    // Convertit un ShotResult en string pour qu'il puisse passer sur le réseau
+
+    // Sérialisation d'un ShotResult en string
     std::string stringFromShotResult () const;
-    // Fonction intermédiaire pour l'opérateur de comparaison
-    bool isEqual(ShotResult toCompare) const;
 };
 
-//convertir une string en shotResult
+// Désérialisation d'une string en ShotResult
 ShotResult shotResultFromString(std::string);
-
-//operateur de comparaison
-bool operator== (ShotResult const& shot1, ShotResult const& shot2);
 
 
 #endif /* SHOTRESULT_H_ */
