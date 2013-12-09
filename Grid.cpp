@@ -23,15 +23,25 @@ Grid::Grid (Grid const& grid_to_copy)
 {
 }
 
-//convertir un entier en string
-std::string convert(int a)
+// convertir un entier en string
+std::string convert_itos(int a)
 {
     std::ostringstream oss;
     oss << a;
     return oss.str();
 }
 
-std::string Grid::stringFromGrid () const
+// convertit une string en entier, renvoie 0 en cas d'erreur de conversion
+int convert_stoi(std::string str)
+{
+    int res;
+    std::istringstream stream(str);
+    if (!(stream >> res))
+        res = 0;
+    return res;
+}
+
+std::string Grid::serialize ()
 {
 	/**
 	 * Format de sérialisation des Grid :
@@ -45,14 +55,14 @@ std::string Grid::stringFromGrid () const
 	 * Exemple : 3/UUUUUUUUU/A1H3a,A3H2d
 	 */
 
-    std::string serial = convert(size) + '/';
+    std::string serial = convert_itos(size) + '/';
 
     // Statuts des cellules
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
-            switch (grid[j][i].getStatus()) {
+            switch (getCell(Position(j, i))->getStatus()) {
                 case UNKNOWN:
                     serial += 'U';
                     break;
@@ -91,7 +101,7 @@ std::string Grid::stringFromGrid () const
             serial += 'H';
 
         // Taille
-        serial += convert(cells.size());
+        serial += convert_itos(cells.size());
 
         // Première lettre du nom
         serial += (ships[k].getName())[0];
@@ -101,6 +111,86 @@ std::string Grid::stringFromGrid () const
     }
 
     return serial;
+}
+
+Grid Grid::unserialize (std::string serial)
+{
+	// Taille : entier avant le premier "/"
+	int gridSize = convert_stoi(serial.substr(0, serial.find('/')));
+
+	// Extraire les chaînes des cellules et des bateaux
+	int cellsPartBegin = serial.find('/') + 1;
+	int cellsPartSize = gridSize*gridSize;
+	int shipsPartBegin = serial.find('/', cellsPartBegin + 1) + 1;
+	std::string cellsPart = serial.substr(cellsPartBegin, cellsPartSize);
+	std::string shipsPart = serial.substr(shipsPartBegin);
+
+	// Construire la grille
+	Grid grid(gridSize);
+	for (int i = 0; i < gridSize; i++)
+	{
+		for (int j = 0; j < gridSize; j++)
+		{
+			Cell* cell = grid.getCell(Position(j, i));
+			switch (cellsPart.at(i*gridSize + j)) {
+				case 'U':
+					cell->setStatus(UNKNOWN);
+					break;
+				case 'W':
+					cell->setStatus(WATER);
+					break;
+				case 'T':
+					cell->setStatus(TOUCH);
+					break;
+				default:
+					assert(false);
+					break;
+			}
+		}
+	}
+
+	// Placer les bateaux
+	while (shipsPart.size() > 0)
+    {
+		// Direction
+        Direction direction = HORIZONTAL;
+        if (shipsPart.at(2) == 'H') direction = HORIZONTAL;
+        else if (shipsPart.at(2) == 'V') direction = VERTICAL;
+        else assert(false);
+
+        // Nom
+        std::string name;
+        switch (shipsPart.at(3)) {
+            case 'a':
+                name = "aircraft carrier";
+                break;
+            case 'b':
+                name = "battleship";
+                break;
+            case 's':
+                name = "submarine";
+                break;
+            case 'd':
+                name = "destroyer";
+                break;
+            case 'p':
+                name = "patrol boat";
+                break;
+            default:
+                break;
+        }
+
+        grid.addShip(Position(shipsPart.substr(0,2)), direction, convert_stoi(shipsPart.substr(3, 1)), name);
+
+        // Enlever le premier bateau de shipsPart
+        int commaPos = shipsPart.find(',');
+
+        if (commaPos != std::string::npos) shipsPart = shipsPart.substr(commaPos + 1);
+        else if (shipsPart.size() == 5) shipsPart = "";
+        else assert(false);
+    }
+
+    return grid;
 }
 
 int Grid::getSize () const
@@ -152,7 +242,8 @@ Ship* Grid::addShip (Position position, Direction direction, int length, std::st
 			dy = 1;
 			break;
 		default:
-			return false;
+			assert(false);
+			return 0;
 	}
 
 	// Créer la liste de Cells du bateau
@@ -187,86 +278,6 @@ Grid Grid::getTargetGrid ()
 			i++;
 	}
 	return target;
-}
-// convertit une string en entier
-int convertBack(std::string toConvert)
-{
-    int res;
-    std::istringstream convert(toConvert);
-    if( ! (convert >> res))
-        res = 0;
-    return res;
-}
-
-Grid gridFromString (std::string serial)
-{
-    int deserialSize = convertBack(serial);
-    Grid deserialGrid = Grid(deserialSize);
-    int currentChar;
-
-    if (deserialSize < 10)
-        currentChar = 2;
-    else
-        currentChar = 3;
-    assert(serial[currentChar-1] == '/');
-
-    for (int i=0; i < deserialSize; i++)
-    {
-        for (int j=0; j < deserialSize; j++)
-        {
-            Cell* cell = deserialGrid.getCell(Position(j,i));
-            switch (serial[currentChar]) {
-                case 'U':
-                    cell -> setStatus(UNKNOWN);
-                    break;
-                case 'W':
-                    cell -> setStatus(WATER);
-                    break;
-                case 'T':
-                    cell -> setStatus(TOUCH);
-                    break;
-                default:
-                    break;
-            }
-
-            currentChar++;
-        }
-    }
-
-    assert(serial[currentChar] == '/');
-    std::string serialShips = serial.substr(currentChar-1);
-
-    while (serialShips.size() > 6)
-    {
-        Direction direction = HORIZONTAL;
-        if (serialShips[4] == 'V')
-            direction = VERTICAL;
-        std::string name;
-        switch (serialShips[6]) {
-            case 'a':
-                name = "aircraft carrier";
-                break;
-            case 'b':
-                name = "battleship";
-                break;
-            case 's':
-                name = "submarine";
-                break;
-            case 'd':
-                name = "destroyer";
-                break;
-            case 'p':
-                name = "patrol boat";
-                break;
-            default:
-                break;
-        }
-
-        deserialGrid.addShip(Position(serialShips.substr(2,2)), direction, convertBack(serialShips.substr(5)), name);
-        serialShips = serialShips.substr(6);
-    }
-
-    return deserialGrid;
 }
 
 std::ostream & operator<<(std::ostream & ofs, Grid &g)

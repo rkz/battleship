@@ -39,9 +39,9 @@ Grid* ShotResult::getTargetGrid() const
     return new Grid (targetGrid);
 }
 
-std::string ShotResult::serialize() const
+std::string ShotResult::serialize()
 {
-    std::string serializedString = targetGrid.stringFromGrid() + "/";
+    std::string serializedString = targetGrid.serialize() + "/";
 
     switch (result) {
         case MISSED:
@@ -74,7 +74,7 @@ ShotResult ShotResult::unserialize(std::string str)
 	char winningPart = str.at(str.size() - 1);  // last character (e.g. "T")
 
 	// Unserialize grid part
-	Grid g = gridFromString(gridPart);
+	Grid g = Grid::unserialize(gridPart);
 
 	// Unserialize result part
 	Result result = MISSED;

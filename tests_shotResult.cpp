@@ -19,16 +19,16 @@ BOOST_AUTO_TEST_CASE( stringFromShotResult )
     g.getCell (Position(1, 2))->setStatus(WATER);
 
     ShotResult shot (g, TOUCHED, false);
-    std::string serial = shot.stringFromShotResult();
-	BOOST_CHECK (serial == "3/TTUUUUUWU/A1H3s$t$f" );
+    std::string serial = shot.serialize();
+	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3s/TF" );
 
 }
 
 BOOST_AUTO_TEST_CASE( ShotResultFromString )
 {
-    std::string stringToTest= "3/UTUUUUUUU/B1H2p$m$f";
+    std::string stringToTest= "3/UTUUUUUUU/B1H2p/MF";
 
-	ShotResult shot = shotResultFromString(stringToTest);
+	ShotResult shot = ShotResult::unserialize(stringToTest);
 	Grid* g = shot.getTargetGrid();
 
 	BOOST_CHECK( shot.getResult() == MISSED );

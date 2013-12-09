@@ -32,12 +32,12 @@ Grid* RemotePlayer::getTargetGrid()
     write_socket(socket, order);
     std::string msg = read_socket(socket);
     
-    return new Grid (gridFromString(msg));
+    return new Grid(Grid::unserialize(msg));
 }
 
 Position RemotePlayer::play(Grid* targetGrid)
 {
-    std::string serial = targetGrid->stringFromGrid();
+    std::string serial = targetGrid->serialize();
     std::string order = "play";
     
     write_socket(socket, order);
@@ -89,7 +89,7 @@ Grid* RemotePlayer::getGrid() const
     write_socket(socket, order);
     std::string msg = read_socket(socket);
     
-    return new Grid (gridFromString(msg));
+    return new Grid(Grid::unserialize(msg));
 }
 
 void RemotePlayer::signature() const
@@ -102,7 +102,7 @@ void RemotePlayer::signature() const
 
 void RemotePlayer::finalView(std::string ennemyName, Grid* ennemyGrid) const
 {
-    std::string serial = ennemyGrid->stringFromGrid();
+    std::string serial = ennemyGrid->serialize();
     std::string order = "finalView";
     
     write_socket(socket, order);

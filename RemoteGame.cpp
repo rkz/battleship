@@ -57,7 +57,7 @@ void RemoteGame::run()
             {
                 write_socket(&socket, "OK");
                 std::string serial = read_socket(&socket);
-                Grid targetGrid = gridFromString(serial);
+                Grid targetGrid = Grid::unserialize(serial);
                 std::string p = play(&targetGrid);
                 write_socket(&socket, p);
             }
@@ -96,7 +96,7 @@ void RemoteGame::run()
                 std::string ennemyName = read_socket(&socket);
                 write_socket(&socket, "OK");
                 std::string serial = read_socket(&socket);
-                Grid ennemyGrid = gridFromString(serial);
+                Grid ennemyGrid = Grid::unserialize(serial);
                 finalView(ennemyName, &ennemyGrid);
                 write_socket(&socket, "OK");
                 notOver = false;
@@ -119,7 +119,7 @@ void RemoteGame::initFleet()
 std::string RemoteGame::getTargetGrid()
 {
     Grid* target = player->getTargetGrid();
-    return target->stringFromGrid();
+    return target->serialize();
 }
 
 std::string RemoteGame::play(Grid* targetGrid)
@@ -147,7 +147,7 @@ std::string RemoteGame::getName() const
 std::string RemoteGame::getGrid() const
 {
     Grid* g = player->getGrid();
-    return g->stringFromGrid();
+    return g->serialize();
 }
 
 void RemoteGame::signature() const

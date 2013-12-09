@@ -73,13 +73,13 @@ BOOST_AUTO_TEST_CASE( grid_serialize )
     g.getCell(Position(1, 0))->setStatus(TOUCH);
     g.getCell(Position(1, 2))->setStatus(WATER);
 
-    std::string serial = g.stringFromGrid();
+    std::string serial = g.serialize();
 	BOOST_CHECK( serial == "4/TTUUUUUUUWUUUUUU/A1H4s,C3H2d" );
 }
 
 BOOST_AUTO_TEST_CASE( grid_unserialize )
 {
-    Grid g1 = gridFromString ("3/TTUUUUUWU/A1H3s");
+    Grid g1 = Grid::unserialize("3/TTUUUUUWU/A1H3s");
 
     BOOST_CHECK( g1.getSize() == 3 );
 

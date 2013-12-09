@@ -41,7 +41,7 @@ public:
     Grid* getTargetGrid () const;
 
     // Sérialisation d'un ShotResult en string
-    std::string serialize () const;
+    std::string serialize ();
 
     // Désérialisation d'une string en ShotResult
     static ShotResult unserialize(std::string);
