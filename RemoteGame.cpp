@@ -74,7 +74,7 @@ void RemoteGame::run()
             {
                 write_socket(&socket, "OK");
                 std::string sr = read_socket(&socket);
-                showResult(shotResultFromString(sr));
+                showResult(ShotResult::unserialize(sr));
                 write_socket(&socket, "OK");
             }
             
@@ -131,7 +131,7 @@ std::string RemoteGame::play(Grid* targetGrid)
 std::string RemoteGame::shoot(Position p)
 {
     ShotResult result = player->shoot(p);
-    return result.stringFromShotResult();
+    return result.serialize();
 }
 
 void RemoteGame::showResult(ShotResult sr)

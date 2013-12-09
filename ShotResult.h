@@ -41,11 +41,11 @@ public:
     Grid* getTargetGrid () const;
 
     // Sérialisation d'un ShotResult en string
-    std::string stringFromShotResult () const;
-};
+    std::string serialize () const;
 
-// Désérialisation d'une string en ShotResult
-ShotResult shotResultFromString(std::string);
+    // Désérialisation d'une string en ShotResult
+    static ShotResult unserialize(std::string);
+};
 
 
 #endif /* SHOTRESULT_H_ */

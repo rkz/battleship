@@ -58,12 +58,12 @@ ShotResult RemotePlayer::shoot(Position p)
     write_socket(socket, serial);
     std::string msg = read_socket(socket);
     
-    return shotResultFromString(msg);
+    return ShotResult::unserialize(msg);
 }
 
 void RemotePlayer::showResult(ShotResult sr)
 {
-    std::string serial = sr.stringFromShotResult();
+    std::string serial = sr.serialize();
     std::string order = "showResult";
     
     write_socket(socket, order);

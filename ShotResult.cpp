@@ -1,5 +1,7 @@
 #include "ShotResult.h"
 
+#include <cassert>
+
 ShotResult::ShotResult(Grid _targetGrid, Result _result, bool _winningShot)
     : targetGrid(_targetGrid), result(_result), winningShot(_winningShot)
 {
@@ -37,68 +39,56 @@ Grid* ShotResult::getTargetGrid() const
     return new Grid (targetGrid);
 }
 
-std::string ShotResult::stringFromShotResult() const
+std::string ShotResult::serialize() const
 {
-    std::string serializedString = targetGrid.stringFromGrid();
-    serializedString += "$";
+    std::string serializedString = targetGrid.stringFromGrid() + "/";
+
     switch (result) {
         case MISSED:
-            serializedString += "m";
+            serializedString += "M";
             break;
         case TOUCHED:
-            serializedString += "t";
+            serializedString += "T";
             break;
         case SUNK:
-            serializedString += "s";
+            serializedString += "S";
             break;
         case ALREADY_PLAYED:
-            serializedString += "a";
+            serializedString += "A";
             break;
         default:
+        	assert(false);
             break;
     }
-    serializedString += "$";
 
-    if (winningShot) serializedString += "t";
-    else serializedString += "f";
+    if (winningShot) serializedString += "T";
+    else serializedString += "F";
 
     return serializedString;
 }
 
-ShotResult shotResultFromString(std::string stringToUnserialize)
+ShotResult ShotResult::unserialize(std::string str)
 {
-    std::string str[3];
-    int i = 0;
+	std::string gridPart = str.substr(0, str.size() - 3);  // exclude 3 last characters (e.g. "/MT")
+	char resultPart = str.at(str.size() - 2);  // penultimate character (e.g. "M")
+	char winningPart = str.at(str.size() - 1);  // last character (e.g. "T")
 
-    // r�cup�ration des trois strings : la premi�re codant la grille, la seconde le result et la troisi�me le winningShot
-    for (int j = 0; j < 3; j++){
-        while ( i < stringToUnserialize.size() && stringToUnserialize[i] != '$'){
-            str[j].push_back(stringToUnserialize[i]);
-            i++;
-            }
-        i++;
-        }
+	// Unserialize grid part
+	Grid g = gridFromString(gridPart);
 
-    Grid itsGrid = gridFromString(str[0]);
+	// Unserialize result part
+	Result result = MISSED;
+	if (resultPart == 'M') result = MISSED;
+	else if (resultPart == 'T') result = TOUCHED;
+	else if (resultPart == 'S') result = SUNK;
+	else if (resultPart == 'A') result = ALREADY_PLAYED;
+	else assert(false);
 
-    Result itsResult = MISSED; // arbitraire
-    bool itsWinningShot = false; // arbitraire
+	// Unserialize winning part
+	bool winning = false;
+	if (winningPart == 'T') winning = true;
+	else if (winningPart == 'F') winning = false;
+	else assert(false);
 
-    if (str[1] == "m")
-            itsResult = MISSED;
-    else if (str[1] == "t")
-            itsResult = TOUCHED;
-    else if (str[1] == "s")
-            itsResult = SUNK;
-    else if (str[1] == "a")
-            itsResult = ALREADY_PLAYED;
-
-    if (str[2] == "t")
-            itsWinningShot = true;
-    else if (str[2] == "f")
-            itsWinningShot = false;
-
-    ShotResult unserializedShot (itsGrid, itsResult, itsWinningShot);
-
-    return unserializedShot;
+	return ShotResult(g, result, winning);
 }
