@@ -20,13 +20,13 @@ BOOST_AUTO_TEST_CASE( stringFromShotResult )
 
     ShotResult shot (g, TOUCHED, false);
     std::string serial = shot.serialize();
-	BOOST_CHECK( serial == "3/TTUUUUUWU/A1H3s/TF" );
+	BOOST_CHECK( serial == "3/TTUUUUUWU/A1.H3s/TF" );
 
 }
 
 BOOST_AUTO_TEST_CASE( ShotResultFromString )
 {
-    std::string stringToTest= "3/UTUUUUUUU/B1H2p/MF";
+    std::string stringToTest= "3/UTUUUUUUU/B1.H2p/MF";
 
 	ShotResult shot = ShotResult::unserialize(stringToTest);
 	Grid* g = shot.getTargetGrid();

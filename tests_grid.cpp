@@ -1,6 +1,7 @@
 #ifdef BATTLESHIP_BUILD_TESTS
 
 #include <boost/test/unit_test.hpp>
+#include <boost/test/execution_monitor.hpp>
 
 #include "Position.h"
 #include "Cell.h"
@@ -74,12 +75,12 @@ BOOST_AUTO_TEST_CASE( grid_serialize )
     g.getCell(Position(1, 2))->setStatus(WATER);
 
     std::string serial = g.serialize();
-	BOOST_CHECK( serial == "4/TTUUUUUUUWUUUUUU/A1H4s,C3H2d" );
+	BOOST_CHECK( serial == "4/TTUUUUUUUWUUUUUU/A1.H4s,C3.H2d" );
 }
 
 BOOST_AUTO_TEST_CASE( grid_unserialize )
 {
-    Grid g1 = Grid::unserialize("3/TTUUUUUWU/A1H3s");
+    Grid g1 = Grid::unserialize("3/TTUUUUUWU/A1.H3s");
 
     BOOST_CHECK( g1.getSize() == 3 );
 
@@ -90,6 +91,7 @@ BOOST_AUTO_TEST_CASE( grid_unserialize )
     BOOST_CHECK( g1.getCell(Position(2, 2))->getStatus() == UNKNOWN );
 
     BOOST_CHECK( g1.getShipAtPosition(Position(1, 0)) != 0 );
+    //BOOST_CHECK( g1.getShipAtPosition(Position(1, 0))->getName() == "submarine" );
     BOOST_CHECK( g1.getShipAtPosition(Position(1, 1)) == 0 );
 }
 

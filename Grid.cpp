@@ -91,8 +91,10 @@ std::string Grid::serialize ()
 
         Position firstCellPos = cells[0]->getPosition();
 
-        // Première case
-        serial += firstCellPos.toString();
+        // Première case (écrire la position sur 3 lettres)
+        std::string p = firstCellPos.toString();
+        if (p.size() == 2) p += ".";
+        serial += p;
 
         // Direction
         if (cells[1]->getPosition().getX() == firstCellPos.getX())
@@ -104,7 +106,7 @@ std::string Grid::serialize ()
         serial += convert_itos(cells.size());
 
         // Première lettre du nom
-        serial += (ships[k].getName())[0];
+        serial += ships[k].getName().at(0);
 
         if (k < ships.size() - 1)
             serial += ',';
@@ -152,15 +154,23 @@ Grid Grid::unserialize (std::string serial)
 	// Placer les bateaux
 	while (shipsPart.size() > 0)
     {
+		// Position
+		std::string posString = shipsPart.substr(0, 3);
+		if (posString.at(2) == '.') posString = posString.substr(0, 2);
+		Position topLeft = Position(posString);
+
 		// Direction
         Direction direction = HORIZONTAL;
-        if (shipsPart.at(2) == 'H') direction = HORIZONTAL;
-        else if (shipsPart.at(2) == 'V') direction = VERTICAL;
+        if (shipsPart.at(3) == 'H') direction = HORIZONTAL;
+        else if (shipsPart.at(3) == 'V') direction = VERTICAL;
         else assert(false);
+
+        // Longueur
+        int length = convert_stoi(shipsPart.substr(4, 1));
 
         // Nom
         std::string name;
-        switch (shipsPart.at(3)) {
+        switch (shipsPart.at(5)) {
             case 'a':
                 name = "aircraft carrier";
                 break;
@@ -177,16 +187,17 @@ Grid Grid::unserialize (std::string serial)
                 name = "patrol boat";
                 break;
             default:
+            	assert(false);
                 break;
         }
 
-        grid.addShip(Position(shipsPart.substr(0,2)), direction, convert_stoi(shipsPart.substr(3, 1)), name);
+        grid.addShip(topLeft, direction, length, name);
 
         // Enlever le premier bateau de shipsPart
         int commaPos = shipsPart.find(',');
 
         if (commaPos != std::string::npos) shipsPart = shipsPart.substr(commaPos + 1);
-        else if (shipsPart.size() == 5) shipsPart = "";
+        else if (shipsPart.size() == 6) shipsPart = "";
         else assert(false);
     }
 
