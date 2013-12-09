@@ -154,23 +154,19 @@ Grid Grid::unserialize (std::string serial)
 	// Placer les bateaux
 	while (shipsPart.size() > 0)
     {
-		std::cout << "Grid unserialize: shipsPart = " << shipsPart << std::endl;
-
 		// Position
 		std::string posString = shipsPart.substr(0, 3);
 		if (posString.at(2) == '.') posString = posString.substr(0, 2);
 		Position topLeft = Position(posString);
-		std::cout << "  - position: " << topLeft << std::endl;
 
 		// Direction
         Direction direction = HORIZONTAL;
-        if (shipsPart.at(3) == 'H') { direction = HORIZONTAL; std::cout << "  - direction HORIZONTAL" << std::endl; }
-        else if (shipsPart.at(3) == 'V') { direction = VERTICAL; std::cout << "  - direction VERTICAL" << std::endl; }
+        if (shipsPart.at(3) == 'H') direction = HORIZONTAL;
+        else if (shipsPart.at(3) == 'V') direction = VERTICAL;
         else assert(false);
 
         // Longueur
         int length = convert_stoi(shipsPart.substr(4, 1));
-        std::cout << "  - length " << length << std::endl;
 
         // Nom
         std::string name;
@@ -194,7 +190,6 @@ Grid Grid::unserialize (std::string serial)
             	assert(false);
                 break;
         }
-        std::cout << "  - name " << name << std::endl;
 
         grid.addShip(topLeft, direction, length, name);
 
